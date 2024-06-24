@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
+import Login from "../component/Login";
 
 const fetchResult = async () => {
   const response = await fetch("/api/user");
-  
 
   if (!response.ok) {
     throw new Error("Network response was not ok " + response.statusText);
@@ -45,6 +45,7 @@ function App() {
       ) : (
         <p>Loading...</p>
       )}
+      <Login/>
     </div>
   );
 }

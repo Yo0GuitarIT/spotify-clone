@@ -7,8 +7,12 @@ app.get("/", (req: Request, res: Response) => {
   res.send("welcome");
 });
 
-app.get("/api/test", (req: Request, res: Response) => {
-  res.send("this is from backend");
+app.get("/api/login", (req: Request, res: Response) => {
+  res.json({
+    state: {
+      login: true,
+    },
+  });
 });
 
 app.get("/api/user", (req: Request, res: Response) => {
