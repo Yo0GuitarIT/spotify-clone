@@ -8,16 +8,32 @@ app.use(express.json());
 
 const SECRET_KEY = "my-secret-key";
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("welcome");
-});
+let activeTokens = new Set();
+
+const authenticateToken = (req: any, res: any, next: any) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (token === null) return res.sendStatus(401);
+
+  if (!activeTokens.has(token)) {
+    return res.sendStatus(403);
+  }
+
+  jwt.verify(token, SECRET_KEY, (error: any, payload: any) => {
+    if (error) return res.sendStatus(403);
+    req.token = token;
+    next();
+  });
+};
 
 app.post("/api/login", (req: Request, res: Response) => {
   const payLoad = {
     timestamp: new Date().getTime(),
   };
 
-  const token = jwt.sign(payLoad, SECRET_KEY, { expiresIn: "5m" });
+  const token = jwt.sign(payLoad, SECRET_KEY, { expiresIn: "1m" });
+  activeTokens.add(token);
 
   res.json({
     success: true,
@@ -26,6 +42,21 @@ app.post("/api/login", (req: Request, res: Response) => {
   });
 });
 
+app.get("/api/verify", authenticateToken, (req, res) => {
+  res.json({
+    success: true,
+    message: "Token is vaild",
+  });
+});
+
+app.post("/api/logout", authenticateToken, (req: any, res) => {
+  activeTokens.delete(req.token);
+  res.json({
+    success: true,
+    message: "Logged out successfully",
+  });
+});
+
 app.listen(port, () => {
-  console.log(`Example app listening on port http://localhost:${port}`);
+  console.log(`Server running on http://localhost:${port}`);
 });

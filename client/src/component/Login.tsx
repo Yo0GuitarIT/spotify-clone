@@ -1,23 +1,35 @@
 import { useState, useEffect } from "react";
-import { login } from "../api/auth";
-import { LoginResponse } from "../types/types";
+import { login, verifyToken, logout } from "../api/auth";
 
 function Login() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
+    const checkLoginStatus = async () => {
+      const storedToken = localStorage.getItem("token");
+      if (storedToken) {
+        try {
+          const result = await verifyToken(storedToken);
+          if (result.success) {
+            setIsLoggedIn(true);
+            setToken(storedToken);
+          } else {
+            localStorage.removeItem("token");
+          }
+        } catch (error) {
+          console.error("Token verification error:", error);
+          localStorage.removeItem("token");
+        }
+      }
+    };
 
-    if (storedToken) {
-      setIsLoggedIn(true);
-      setToken(storedToken);
-    }
+    checkLoginStatus();
   }, []);
 
   const handleLogin = async () => {
     try {
-      const result: LoginResponse = await login();
+      const result = await login();
       if (result.success) {
         setIsLoggedIn(true),
           setToken(result.token),
@@ -28,10 +40,19 @@ function Login() {
     }
   };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setToken(null);
-    localStorage.removeItem("token");
+  const handleLogout = async () => {
+    if (token) {
+      try {
+        const result = await logout(token);
+        if (result.success) {
+          setIsLoggedIn(false);
+          setToken(null);
+          localStorage.removeItem("token");
+        }
+      } catch (error) {
+        console.error("Logout error", error);
+      }
+    }
   };
 
   return (
@@ -43,6 +64,7 @@ function Login() {
       )}
 
       <p>Status: {isLoggedIn ? "Logged in" : "Logged out"}</p>
+      {token && <p>Token: {token}</p>}
     </>
   );
 }
