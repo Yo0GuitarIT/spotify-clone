@@ -1,10 +1,12 @@
 import express, { Request, Response } from "express";
+import morgan from "morgan";
 import jwt from "jsonwebtoken";
 
 const app = express();
 const port = 3000;
 
 app.use(express.json());
+app.use(morgan('dev'))
 
 const SECRET_KEY = "my-secret-key";
 
