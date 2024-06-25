@@ -6,7 +6,7 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
-app.use(morgan('dev'))
+app.use(morgan("dev"));
 
 const SECRET_KEY = "my-secret-key";
 
@@ -56,6 +56,13 @@ app.post("/api/logout", authenticateToken, (req: any, res) => {
   res.json({
     success: true,
     message: "Logged out successfully",
+  });
+});
+
+app.post("/api/spotify/login", (req, res) => {
+  res.json({
+    success: true,
+    url: "https://google.com",
   });
 });
 
