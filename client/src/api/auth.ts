@@ -1,6 +1,6 @@
-import { LoginResponse, VerifyResponse, LogoutResponse } from "../types/types";
+import { ApiResponse } from "../types/types";
 
-export const login = async (): Promise<LoginResponse> => {
+export const login = async (): Promise<ApiResponse> => {
   const response = await fetch("/api/login", {
     method: "POST",
     headers: {
@@ -11,11 +11,11 @@ export const login = async (): Promise<LoginResponse> => {
     throw new Error("Login failed");
   }
 
-  const data: LoginResponse = await response.json();
+  const data: ApiResponse = await response.json();
   return data;
 };
 
-export const verifyToken = async (token: string): Promise<VerifyResponse> => {
+export const verifyToken = async (token: string): Promise<ApiResponse> => {
   const response = await fetch("/api/verify", {
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -24,11 +24,11 @@ export const verifyToken = async (token: string): Promise<VerifyResponse> => {
     throw new Error("verify failed");
   }
 
-  const data: VerifyResponse = await response.json();
+  const data: ApiResponse = await response.json();
   return data;
 };
 
-export const logout = async (token: string): Promise<LogoutResponse> => {
+export const logout = async (token: string): Promise<ApiResponse> => {
   const response = await fetch("/api/logout", {
     method: "POST",
     headers: { Authorization: `Bearer ${token}` },
@@ -38,6 +38,6 @@ export const logout = async (token: string): Promise<LogoutResponse> => {
     throw new Error("verify failed");
   }
 
-  const data: LogoutResponse = await response.json();
+  const data: ApiResponse = await response.json();
   return data;
 };

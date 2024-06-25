@@ -1,7 +1,7 @@
-export interface LoginResponse {
+export interface ApiResponse {
   success: boolean;
   message: string;
-  token: string;
+  token?: string;
 }
 
 export interface VerifyResponse {
