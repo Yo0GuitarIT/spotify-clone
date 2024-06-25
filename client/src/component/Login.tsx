@@ -29,7 +29,7 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const result = await login();
+      const result : any = await login();
       if (result.success) {
         setIsLoggedIn(true),
           setToken(result.token),
