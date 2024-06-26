@@ -3,7 +3,7 @@ import { AuthService } from "../services/AuthService";
 import { AuthController } from "../controllers/AuthController";
 import { UserRepository } from "../repositories/UserRepository";
 
-const router = express.Router();
+const authRouter = express.Router();
 
 const userRepository = new UserRepository();
 const authService = new AuthService(userRepository);
@@ -21,14 +21,14 @@ const authenticateToken = async (req: any, res: any, next: any) => {
   next();
 };
 
-router.post("/login", (req, res) => authController.login(req, res));
+authRouter.post("/login", (req, res) => authController.login(req, res));
 
-router.get("/verify", authenticateToken, (req, res) =>
+authRouter.get("/verify", authenticateToken, (req, res) =>
   authController.verify(req, res)
 );
 
-router.post("/logout", authenticateToken, (req, res) =>
+authRouter.post("/logout", authenticateToken, (req, res) =>
   authController.logout(req, res)
 );
 
-export default router;
+export default authRouter;
