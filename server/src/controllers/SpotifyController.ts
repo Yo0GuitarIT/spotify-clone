@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import crypto from "crypto";
 import SpotifyWebApi from "spotify-web-api-node";
-import { CLIENT_ID, CLIENT_SERCET, REDIRECT_URI } from "../config/constants";
+import { CLIENT_ID, CLIENT_SECRET , REDIRECT_URI } from "../config/constants";
 
 export class SpotifyController {
   private clientId = CLIENT_ID;
-  private clientSecret = CLIENT_SERCET;
+  private clientSecret = CLIENT_SECRET;
   private redirectUri = REDIRECT_URI;
   private scope = ["user-read-private", " user-read-email"];
   private spotifyApi: SpotifyWebApi;
