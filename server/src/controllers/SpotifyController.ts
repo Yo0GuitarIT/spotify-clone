@@ -1,59 +1,21 @@
 import { Request, Response } from "express";
-import crypto from "crypto";
-import SpotifyWebApi from "spotify-web-api-node";
-import { CLIENT_ID, CLIENT_SECRET , REDIRECT_URI } from "../config/constants";
+import { SpotifyService } from "../services/SpotifyService";
 
 export class SpotifyController {
-  private clientId = CLIENT_ID;
-  private clientSecret = CLIENT_SECRET;
-  private redirectUri = REDIRECT_URI;
-  private scope = ["user-read-private", " user-read-email"];
-  private spotifyApi: SpotifyWebApi;
+  private spotifyService: SpotifyService;
 
-  constructor() {
-    this.spotifyApi = new SpotifyWebApi({
-      clientId: this.clientId,
-      clientSecret: this.clientSecret,
-      redirectUri: this.redirectUri,
-    });
-  }
-  private generateRandomString(length: number): string {
-    const possible =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    const values = crypto.randomBytes(length);
-    const randomString = values.reduce(
-      (acc, x) => acc + possible[x % possible.length],
-      ""
-    );
-    return randomString;
-  }
-
-  private setupTokenRefresh(expiresIn: number): void {
-    setInterval(async () => {
-      try {
-        const data = await this.spotifyApi.refreshAccessToken();
-        const { access_token } = data.body;
-        this.spotifyApi.setAccessToken(access_token);
-        console.log("Access token refreshed");
-      } catch (error) {
-        console.error("Error refreshing access token:", error);
-      }
-    }, (expiresIn / 2) * 1000);
+  constructor(spotifyService: SpotifyService) {
+    this.spotifyService = spotifyService;
   }
 
   login(req: Request, res: Response): void {
     try {
-      const state = this.generateRandomString(16);
-      const authUrl = this.spotifyApi.createAuthorizeURL(this.scope, state);
-
-      res.json({
-        success: true,
-        url: authUrl,
-      });
+      const authUrl = this.spotifyService.createAuthUrl();
+      res.json({ success: true, url: authUrl });
     } catch (error) {
       res.status(500).json({
         success: false,
-        message: "Error during login proocess",
+        message: "Error during login process",
       });
     }
   }
@@ -64,28 +26,14 @@ export class SpotifyController {
 
     if (error) {
       res.status(400).send(`Callback Error: ${error}`);
-      return;
     }
 
     if (!code) {
-      res.status(400).send('Missing "code" query parameter');
-      return;
+      res.status(400).send('Miss "code" query parameter');
     }
 
     try {
-      const data = await this.spotifyApi.authorizationCodeGrant(code);
-      const accessToken = data.body.access_token;
-      const refreshToken = data.body.refresh_token;
-      const expiresIn = data.body.expires_in;
-
-      this.spotifyApi.setAccessToken(accessToken);
-      this.spotifyApi.setRefreshToken(refreshToken);
-
-      console.log("The access token is " + accessToken);
-      console.log("The refresh token is " + refreshToken);
-
-      this.setupTokenRefresh(expiresIn);
-
+      await this.spotifyService.handleCallback(code as string);
       res.json({
         success: true,
         message:
@@ -94,7 +42,7 @@ export class SpotifyController {
     } catch (error) {
       res.status(500).json({
         success: false,
-        message: "Error during login proocess",
+        message: "Error during login process",
       });
     }
   }
