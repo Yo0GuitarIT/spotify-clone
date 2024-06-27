@@ -3,7 +3,12 @@ import { SpotifyRepository } from "../repositories/SpotifyResposity";
 
 export class SpotifyService {
   private spotifyRepository: SpotifyRepository;
-  private scope = ["user-read-private", "user-read-email"];
+  private scope = [
+    "user-read-private",
+    "user-read-email",
+    "user-read-recently-played",
+  ];
+  private showDialog = true;
 
   constructor(spotifyRepository: SpotifyRepository) {
     this.spotifyRepository = spotifyRepository;
@@ -25,17 +30,18 @@ export class SpotifyService {
       } catch (error) {
         console.error("Error refreshing access token: ", error);
       }
-    }, (expiresIn / 2) * 1000);
+    }, (expiresIn / 60) * 1000);
   }
+
   createAuthUrl(): string {
     const state = this.generateRandomString(16);
     const AuthUrl = this.spotifyRepository
       .getSpotifyWebApi()
-      .createAuthorizeURL(this.scope, state);
+      .createAuthorizeURL(this.scope, state, this.showDialog);
     return AuthUrl;
   }
 
-  async handleCallback(code: string): Promise<void> {
+  async handleCallback(code: string): Promise<string> {
     const data = await this.spotifyRepository
       .getSpotifyWebApi()
       .authorizationCodeGrant(code);
@@ -45,5 +51,13 @@ export class SpotifyService {
     this.spotifyRepository.setRefreshToken(refresh_token);
 
     this.setupTokenRefresh(expires_in);
+
+    return access_token;
+  }
+
+  getToken(): string | undefined {
+    const accessToken = this.spotifyRepository.getAccessToken();
+
+    return accessToken;
   }
 }

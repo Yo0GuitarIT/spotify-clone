@@ -33,17 +33,27 @@ export class SpotifyController {
     }
 
     try {
-      await this.spotifyService.handleCallback(code as string);
-      res.json({
-        success: true,
-        message:
-          "Login successful! You can now use the /search and /play endpoints.",
-      });
+      const accessToken = await this.spotifyService.handleCallback(
+        code as string
+      );
+
+      const frontendUrl = new URL("http://localhost:5173");
+      // todo need to redirect authtoken
+      frontendUrl.searchParams.append("access_token", accessToken);
+
+      res.redirect(frontendUrl.toString());
     } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: "Error during login process",
-      });
+      console.error("Error during login process:", error);
+      res.redirect("http://localhost:5173/auth-error");
     }
+  }
+  
+  validToken(req: Request, res: Response) {
+    const token = this.spotifyService.getToken(); 
+
+    res.json({
+      success: true,
+      message: token,
+    });
   }
 }

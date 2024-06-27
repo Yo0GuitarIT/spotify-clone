@@ -16,6 +16,14 @@ export class SpotifyRepository {
     return this.spotifyWebApi;
   }
 
+  getAccessToken(): string | undefined {
+    return this.spotifyWebApi.getAccessToken();
+  }
+
+  getRefreshToken(): string | undefined {
+    return this.spotifyWebApi.getRefreshToken();
+  }
+
   setAccessToken(token: string) {
     return this.spotifyWebApi.setAccessToken(token);
   }
