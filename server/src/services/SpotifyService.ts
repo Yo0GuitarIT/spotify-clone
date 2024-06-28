@@ -30,7 +30,7 @@ export class SpotifyService {
       } catch (error) {
         console.error("Error refreshing access token: ", error);
       }
-    }, (expiresIn / 60) * 1000);
+    }, (expiresIn / 2) * 1000);
   }
 
   createAuthUrl(): string {
@@ -51,13 +51,13 @@ export class SpotifyService {
     this.spotifyRepository.setRefreshToken(refresh_token);
 
     this.setupTokenRefresh(expires_in);
+    // todo it need to be stop when logout
 
     return access_token;
   }
 
   getToken(): string | undefined {
     const accessToken = this.spotifyRepository.getAccessToken();
-
     return accessToken;
   }
 }

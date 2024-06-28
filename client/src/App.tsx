@@ -1,24 +1,15 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
 import HomePage from "./pages/HomePage";
-import AuthPage from "./pages/AuthPage";
-
-import Login from "./component/Login";
-import LoginWithSpotify from "./component/LoginWithSpotify";
+import AuthCallbackPage from "./pages/AuthPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/auth" element={<AuthPage />} />
+        <Route path="/auth-callback" element={<AuthCallbackPage />} />
       </Routes>
     </BrowserRouter>
-    // <div>
-    //   <h1>Jwt Auth Demo</h1>
-    //   <Login />
-    //   <LoginWithSpotify/>
-    // </div>
   );
 }
 

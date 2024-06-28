@@ -15,7 +15,7 @@ export const loginSpotify = async () => {
 };
 
 export const validToken = async (token: string) => {
-  const response = await fetch("/api/spotify/vaildToken", {
+  const response = await fetch("/api/spotify/validToken", {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,

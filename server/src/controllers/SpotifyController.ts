@@ -37,8 +37,7 @@ export class SpotifyController {
         code as string
       );
 
-      const frontendUrl = new URL("http://localhost:5173");
-      // todo need to redirect authtoken
+      const frontendUrl = new URL("http://localhost:5173/auth-callback");
       frontendUrl.searchParams.append("access_token", accessToken);
 
       res.redirect(frontendUrl.toString());
@@ -47,13 +46,22 @@ export class SpotifyController {
       res.redirect("http://localhost:5173/auth-error");
     }
   }
-  
-  validToken(req: Request, res: Response) {
-    const token = this.spotifyService.getToken(); 
 
-    res.json({
-      success: true,
-      message: token,
-    });
+  validToken(req: Request, res: Response) {
+    const token = req.headers.authorization?.split(" ")[1];
+    const storedToken = this.spotifyService.getToken();
+
+    // todo get refresh token if the token is time over
+    if (token === storedToken) {
+      res.json({
+        success: true,
+        valid: true,
+      });
+    } else {
+      res.json({
+        success: true,
+        valid: false,
+      });
+    }
   }
 }
