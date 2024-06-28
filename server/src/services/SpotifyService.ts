@@ -1,13 +1,8 @@
 import crypto from "crypto";
 import { SpotifyRepository } from "../repositories/SpotifyResposity";
-
+import { SPOTIFY_SCOPE } from "../config/constants";
 export class SpotifyService {
   private spotifyRepository: SpotifyRepository;
-  private scope = [
-    "user-read-private",
-    "user-read-email",
-    "user-read-recently-played",
-  ];
   private showDialog = true;
 
   constructor(spotifyRepository: SpotifyRepository) {
@@ -37,7 +32,7 @@ export class SpotifyService {
     const state = this.generateRandomString(16);
     const AuthUrl = this.spotifyRepository
       .getSpotifyWebApi()
-      .createAuthorizeURL(this.scope, state, this.showDialog);
+      .createAuthorizeURL(SPOTIFY_SCOPE, state, this.showDialog);
     return AuthUrl;
   }
 
