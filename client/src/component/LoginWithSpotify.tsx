@@ -1,39 +1,23 @@
-import { loginSpotify } from "../api/spotifyApi";
-import { ApiResponse } from "../types/types";
-import { useAuth } from "../useAuth";
+import { useAuth } from "../hooks/useAuth";
 
 function LoginWithSpotify() {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, login, logout } = useAuth();
 
-  const handleLoginWithSpotify = async (): Promise<void> => {
-    try {
-      const data: ApiResponse = await loginSpotify();
-      if (data.success && data.url) {
-        window.location.href = data.url;
-      } else {
-        console.error("Login failed or URL not provided.");
-      }
-    } catch (error) {
-      console.error("Error during Spotify login:", error);
-    }
-  };
-
-  const handleLogoutWithSpotify = () => {
-    localStorage.removeItem("spotify_access_token");
-    window.location.reload();
-  };
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
       {isAuthenticated ? (
         <div>
           <p>You are logged in</p>
-          <button onClick={handleLogoutWithSpotify}>Logout</button>
+          <button onClick={logout}>Logout</button>
         </div>
       ) : (
         <div>
           <p>Please Log in</p>
-          <button onClick={handleLoginWithSpotify}>Login with Spotify</button>
+          <button onClick={login}>Login with Spotify</button>
         </div>
       )}
     </>
