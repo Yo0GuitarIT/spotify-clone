@@ -1,7 +1,8 @@
 import SpotifyWebApi from "spotify-web-api-node";
 import { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from "../config/constants";
+import { ISpotifyReposity } from "../interface/interface";
 
-export class SpotifyRepository {
+export class SpotifyRepository implements ISpotifyReposity {
   private spotifyWebApi: SpotifyWebApi;
 
   constructor() {

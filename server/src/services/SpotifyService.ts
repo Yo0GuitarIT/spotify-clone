@@ -1,11 +1,12 @@
 import crypto from "crypto";
-import { SpotifyRepository } from "../repositories/SpotifyResposity";
+import { ISpotifyReposity, ISpotifyService } from "../interface/interface";
 import { SPOTIFY_SCOPE } from "../config/constants";
-export class SpotifyService {
-  private spotifyRepository: SpotifyRepository;
+
+export class SpotifyService implements ISpotifyService {
+  private spotifyRepository: ISpotifyReposity;
   private showDialog = true;
 
-  constructor(spotifyRepository: SpotifyRepository) {
+  constructor(spotifyRepository: ISpotifyReposity) {
     this.spotifyRepository = spotifyRepository;
   }
 
@@ -30,10 +31,9 @@ export class SpotifyService {
 
   createAuthUrl(): string {
     const state = this.generateRandomString(16);
-    const AuthUrl = this.spotifyRepository
+    return this.spotifyRepository
       .getSpotifyWebApi()
       .createAuthorizeURL(SPOTIFY_SCOPE, state, this.showDialog);
-    return AuthUrl;
   }
 
   async handleCallback(code: string): Promise<string> {
@@ -41,7 +41,6 @@ export class SpotifyService {
       .getSpotifyWebApi()
       .authorizationCodeGrant(code);
     const { access_token, refresh_token, expires_in } = data.body;
-
     this.spotifyRepository.setAccessToken(access_token);
     this.spotifyRepository.setRefreshToken(refresh_token);
 
