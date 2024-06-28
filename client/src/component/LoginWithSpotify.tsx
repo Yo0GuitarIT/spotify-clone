@@ -1,7 +1,10 @@
 import { loginSpotify } from "../api/spotifyApi";
 import { ApiResponse } from "../types/types";
+import { useAuth } from "../useAuth";
 
 function LoginWithSpotify() {
+  const { isAuthenticated, isLoading } = useAuth();
+
   const handleLoginWithSpotify = async (): Promise<void> => {
     try {
       const data: ApiResponse = await loginSpotify();
@@ -15,10 +18,25 @@ function LoginWithSpotify() {
     }
   };
 
+  const handleLogoutWithSpotify = () => {
+    localStorage.removeItem("spotify_access_token");
+    window.location.reload();
+  };
+
   return (
-    <div>
-      <button onClick={handleLoginWithSpotify}>Login with Spotify</button>
-    </div>
+    <>
+      {isAuthenticated ? (
+        <div>
+          <p>You are logged in</p>
+          <button onClick={handleLogoutWithSpotify}>Logout</button>
+        </div>
+      ) : (
+        <div>
+          <p>Please Log in</p>
+          <button onClick={handleLoginWithSpotify}>Login with Spotify</button>
+        </div>
+      )}
+    </>
   );
 }
 
