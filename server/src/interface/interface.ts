@@ -13,6 +13,6 @@ export interface ISpotifyService {
   createAuthUrl(): string;
   handleCallback(code: string): Promise<boolean>;
   getToken(): string | undefined;
-
+  logout(): void;
   getCurrentTrack(): Promise<any>;
 }

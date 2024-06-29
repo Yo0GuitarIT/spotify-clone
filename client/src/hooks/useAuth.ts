@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
-import { validLoginState, loginSpotify } from "../api/spotifyApi";
+import {
+  validLoginState,
+  loginSpotify,
+  logoutSpotify,
+} from "../api/spotifyApi";
 import { ApiResponse } from "../types/types";
 
 export const useAuth = () => {
@@ -38,9 +42,16 @@ export const useAuth = () => {
     setIsAuthenticated(true);
   };
 
-  const logout = () => {
-    localStorage.removeItem("login_success");
-    setIsAuthenticated(false);
+  const logout = async () => {
+    try {
+      const response = await logoutSpotify();
+      if (response) {
+        localStorage.removeItem("login_success");
+        setIsAuthenticated(false);
+      }
+    } catch (error) {
+      console.log("logout fail");
+    }
   };
 
   useEffect(() => {

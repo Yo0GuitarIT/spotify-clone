@@ -6,6 +6,7 @@ import { AuthenticationError } from "../utils/customError";
 export class SpotifyService implements ISpotifyService {
   private spotifyRepository: ISpotifyReposity;
   private showDialog = true;
+  private tokenRefreshInterval: NodeJS.Timeout | null = null;
 
   constructor(spotifyRepository: ISpotifyReposity) {
     this.spotifyRepository = spotifyRepository;
@@ -19,15 +20,26 @@ export class SpotifyService implements ISpotifyService {
   }
 
   private setupTokenRefresh(expiresIn: number): void {
-    setInterval(async () => {
+    if (this.tokenRefreshInterval) {
+      clearInterval(this.tokenRefreshInterval);
+    }
+    this.tokenRefreshInterval = setInterval(async () => {
       try {
         const accessToken = await this.spotifyRepository.refreshAccessToken();
         this.spotifyRepository.setAccessToken(accessToken);
         console.log("Access token refreshed");
       } catch (error) {
-        console.error("Error refreshing access token: ", error); 
+        console.error("Error refreshing access token: ", error);
       }
-    }, (expiresIn / 2) * 1000);
+    }, (expiresIn / 60) * 1000);
+  }
+
+  public stopTokenRefresh(): void {
+    if (this.tokenRefreshInterval) {
+      clearInterval(this.tokenRefreshInterval);
+      this.tokenRefreshInterval = null;
+      console.log("Token refresh stopped");
+    }
   }
 
   createAuthUrl(): string {
@@ -47,12 +59,18 @@ export class SpotifyService implements ISpotifyService {
       this.spotifyRepository.setRefreshToken(refresh_token);
 
       this.setupTokenRefresh(expires_in);
-      // todo it need to be stop when logout
+
       return true;
     } catch (error) {
       console.error("Error in handleCallback:", error);
       throw new AuthenticationError("Failed to authenticaticate with Spotify");
     }
+  }
+
+  public logout(): void {
+    this.stopTokenRefresh();
+    this.spotifyRepository.setAccessToken("");
+    this.spotifyRepository.setRefreshToken("");
   }
 
   getToken(): string | undefined {

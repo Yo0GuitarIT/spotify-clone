@@ -10,6 +10,7 @@ const spotifyService = new SpotifyService(spotifyRepository);
 const spotifyController = new SpotifyController(spotifyService);
 
 spotifyRouter.post("/login", spotifyController.login.bind(spotifyController));
+spotifyRouter.post("/logout", spotifyController.logout.bind(spotifyController));
 spotifyRouter.get(
   "/callback",
   spotifyController.callback.bind(spotifyController)

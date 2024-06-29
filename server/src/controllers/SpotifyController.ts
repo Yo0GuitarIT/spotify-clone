@@ -22,6 +22,11 @@ export class SpotifyController {
     }
   );
 
+  logout = asyncHandler(async (req: Request, res: Response) => {
+    this.spotifyService.logout();
+    res.json({ success: true, message: "Logged out successfully" });
+  });
+
   callback = asyncHandler(async (req: Request, res: Response) => {
     const { error, code } = req.query;
 
