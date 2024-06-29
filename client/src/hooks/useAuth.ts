@@ -1,21 +1,17 @@
 import { useState, useEffect } from "react";
-import { validToken, loginSpotify } from "../api/spotifyApi";
+import { validLoginState, loginSpotify } from "../api/spotifyApi";
 import { ApiResponse } from "../types/types";
 
 export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    checkAuth();
-  }, []);
-
   const checkAuth = async () => {
-    const token = localStorage.getItem("spotify_access_token");
-    if (token) {
+    const loginState = localStorage.getItem("login_success");
+    if (loginState) {
       try {
-        const response = await validToken(token);
-        setIsAuthenticated(response.valid);
+        const response = await validLoginState(loginState);
+        setIsAuthenticated(response.success);
       } catch (error) {
         console.error("Token validation failed:", error);
         setIsAuthenticated(false);
@@ -38,14 +34,18 @@ export const useAuth = () => {
   };
 
   const handleCallback = (accessToken: string) => {
-    localStorage.setItem("spotify_access_token", accessToken);
+    localStorage.setItem("login_success", accessToken);
     setIsAuthenticated(true);
   };
 
   const logout = () => {
-    localStorage.removeItem("spotify_access_token");
+    localStorage.removeItem("login_success");
     setIsAuthenticated(false);
   };
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
 
   return { isAuthenticated, isLoading, login, handleCallback, logout };
 };

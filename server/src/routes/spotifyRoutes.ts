@@ -10,7 +10,16 @@ const spotifyService = new SpotifyService(spotifyRepository);
 const spotifyController = new SpotifyController(spotifyService);
 
 spotifyRouter.post("/login", spotifyController.login.bind(spotifyController));
-spotifyRouter.get("/callback", spotifyController.callback.bind(spotifyController));
-spotifyRouter.get("/validToken", spotifyController.validToken.bind(spotifyController));
-
+spotifyRouter.get(
+  "/callback",
+  spotifyController.callback.bind(spotifyController)
+);
+spotifyRouter.post(
+  "/validLoginState",
+  spotifyController.validLoginState.bind(spotifyController)
+);
+spotifyRouter.get(
+  "/getCurrentTrack",
+  spotifyController.getCurrentTrack.bind(spotifyController)
+);
 export default spotifyRouter;

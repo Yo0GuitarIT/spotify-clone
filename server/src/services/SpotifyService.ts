@@ -36,22 +36,29 @@ export class SpotifyService implements ISpotifyService {
       .createAuthorizeURL(SPOTIFY_SCOPE, state, this.showDialog);
   }
 
-  async handleCallback(code: string): Promise<string> {
-    const data = await this.spotifyRepository
-      .getSpotifyWebApi()
-      .authorizationCodeGrant(code);
-    const { access_token, refresh_token, expires_in } = data.body;
-    this.spotifyRepository.setAccessToken(access_token);
-    this.spotifyRepository.setRefreshToken(refresh_token);
+  async handleCallback(code: string): Promise<boolean> {
+    try {
+      const data = await this.spotifyRepository
+        .getSpotifyWebApi()
+        .authorizationCodeGrant(code);
+      const { access_token, refresh_token, expires_in } = data.body;
+      this.spotifyRepository.setAccessToken(access_token);
+      this.spotifyRepository.setRefreshToken(refresh_token);
 
-    this.setupTokenRefresh(expires_in);
-    // todo it need to be stop when logout
-
-    return access_token;
+      this.setupTokenRefresh(expires_in);
+      // todo it need to be stop when logout
+      return true;
+    } catch (error) {
+      console.error("Error in handleCallback:", error);
+      return false;
+    }
   }
 
   getToken(): string | undefined {
-    const accessToken = this.spotifyRepository.getAccessToken();
-    return accessToken;
+    return this.spotifyRepository.getAccessToken();
+  }
+
+  async getCurrentTrack(): Promise<any> {
+    return this.spotifyRepository.getCurrentTrack();
   }
 }

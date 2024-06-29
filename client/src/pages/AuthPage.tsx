@@ -9,14 +9,14 @@ function AuthCallbackPage() {
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const accessToken = params.get("access_token");
+    const loginState = params.get("login_success");
 
-    if (accessToken) {
-      console.log("get access token");
-      handleCallback(accessToken);
+    if (loginState) {
+      console.log("get login state");
+      handleCallback(loginState);
       navigate("/");
     } else {
-      console.error("missing token");
+      console.error("missing login state");
       navigate("/");
     }
   }, [navigate, location, handleCallback]);

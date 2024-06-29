@@ -6,12 +6,10 @@ export interface SpotifyTokens {
 
 export interface AuthorizationResponse {
   success: boolean;
-  url?: string;
-  message?: string;
+  url: string;
 }
 
-export interface TokenValidationResponse {
+export interface LoginStateResponse {
   success: boolean;
   valid: boolean;
-  newToken?: string;
 }

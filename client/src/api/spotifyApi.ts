@@ -14,15 +14,23 @@ export const loginSpotify = async () => {
   return data;
 };
 
-export const validToken = async (token: string) => {
-  const response = await fetch("/api/spotify/validToken", {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  if (!response.ok) {
-    throw new Error("Token vaildation failed");
+export const validLoginState = async (loginState: string) => {
+  try {
+    const response = await fetch("/api/spotify/validLoginState", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ loginState }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Login state validation failed: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error validating login state:", error);
+    throw error;
   }
-  return response.json();
 };

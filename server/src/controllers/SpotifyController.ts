@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { ISpotifyService } from "../interface/interface";
 import { CustomError } from "../utils/customError";
-import { AuthorizationResponse, TokenValidationResponse } from "../types/types";
+import { AuthorizationResponse, LoginStateResponse } from "../types/types";
 
 const asyncHandler =
   (fn: Function) => (req: Request, res: Response, next: NextFunction) => {
@@ -28,25 +28,55 @@ export class SpotifyController {
       throw new CustomError('Missing "code" query parameter', 400);
     }
 
-    const accessToken = await this.spotifyService.handleCallback(code);
-    const frontendUrl = new URL("http://localhost:5173/auth-callback");
-    frontendUrl.searchParams.append("access_token", accessToken);
-    res.redirect(frontendUrl.toString());
+    try {
+      const success = await this.spotifyService.handleCallback(code);
+      const frontendUrl = new URL("http://localhost:5173/auth-callback");
+      frontendUrl.searchParams.append(
+        "login_success",
+        success ? "true" : "false"
+      );
+
+      res.redirect(frontendUrl.toString());
+    } catch (err) {
+      console.error("Error in Spotify callback:", err);
+      const frontendUrl = new URL("http://localhost:5173/auth-callback");
+      frontendUrl.searchParams.append("login_success", "false");
+      frontendUrl.searchParams.append(
+        "error",
+        "An error occurred during authentication"
+      );
+      res.redirect(frontendUrl.toString());
+    }
   });
 
-  validToken = asyncHandler(
-    async (req: Request, res: Response<TokenValidationResponse>) => {
-      const token = req.headers.authorization?.split(" ")[1];
-      if (!token) {
-        throw new CustomError("No token provided", 401);
+  validLoginState = asyncHandler(
+    async (req: Request, res: Response<LoginStateResponse>) => {
+      const { loginState } = req.body;
+
+      if (!loginState) {
+        throw new CustomError("No login state provided", 400);
       }
 
-      const storedToken = this.spotifyService.getToken();
-      if (token === storedToken) {
+      if (loginState === "true") {
         res.json({ success: true, valid: true });
       } else {
-        res.json({ success: true, valid: false, newToken: storedToken });
+        res.json({ success: true, valid: false });
       }
     }
   );
+
+  getCurrentTrack = asyncHandler(async (req: Request, res: Response) => {
+    const data = await this.spotifyService.getCurrentTrack();
+    if (data === null) {
+      res.status(204).json({ message: "No track currently playing" });
+    } else {
+      const trackName = data.body.item.name;
+      res.json({
+        trackName: trackName,
+        artistName: data.body.item.artists[0].name,
+        albumName: data.body.item.album.name,
+      
+      });
+    }
+  });
 }

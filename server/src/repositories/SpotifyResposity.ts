@@ -37,4 +37,33 @@ export class SpotifyRepository implements ISpotifyReposity {
     const data = await this.spotifyWebApi.refreshAccessToken();
     return data.body.access_token;
   }
+
+  getCurrentTrack(): Promise<any>{
+    return this.spotifyWebApi.getMyCurrentPlayingTrack();
+    //   const accessToken = this.getAccessToken();
+
+    //   if (!accessToken) {
+    //     throw new Error("Access token not available");
+    //   }
+
+    //   const response = await fetch(
+    //     "https://api.spotify.com/v1/me/player/currently-playing",
+    //     {
+    //       method: "GET",
+    //       headers: {
+    //         Authorization: `Bearer ${accessToken}`,
+    //         "Content-Type": "application/json",
+    //       },
+    //     }
+    //   );
+
+    //   if (!response.ok) {
+    //     throw new Error(`HTTP error! status: ${response.status}`);
+    //   }
+    //   if (response.status === 204) {
+    //     return null; // No track currently playing
+    //   }
+    //   const data = await response.json();
+    //   return data;
+  }
 }
