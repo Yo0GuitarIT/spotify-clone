@@ -16,14 +16,6 @@ export const errorhandler = (
     });
   }
 
-  if (err.name === "ValidationError") {
-    return res.status(400).json({
-      success: false,
-      message: "Validation Error",
-      errors: err.message,
-    });
-  }
-
   res.status(500).json({
     success: false,
     message: "Internal server error",

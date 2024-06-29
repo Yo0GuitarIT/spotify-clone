@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import { ISpotifyReposity, ISpotifyService } from "../interface/interface";
 import { SPOTIFY_SCOPE } from "../config/constants";
+import { AuthenticationError } from "../utils/customError";
 
 export class SpotifyService implements ISpotifyService {
   private spotifyRepository: ISpotifyReposity;
@@ -24,7 +25,7 @@ export class SpotifyService implements ISpotifyService {
         this.spotifyRepository.setAccessToken(accessToken);
         console.log("Access token refreshed");
       } catch (error) {
-        console.error("Error refreshing access token: ", error);
+        console.error("Error refreshing access token: ", error); 
       }
     }, (expiresIn / 2) * 1000);
   }
@@ -50,7 +51,7 @@ export class SpotifyService implements ISpotifyService {
       return true;
     } catch (error) {
       console.error("Error in handleCallback:", error);
-      return false;
+      throw new AuthenticationError("Failed to authenticaticate with Spotify");
     }
   }
 

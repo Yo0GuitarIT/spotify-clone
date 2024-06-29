@@ -1,11 +1,25 @@
 export class CustomError extends Error {
-  statusCode: number;
-  inOperational: boolean;
-
-  constructor(message: string, statusCode: number, isOperational = true) {
+  constructor(public message: string, public statusCode: number) {
     super(message);
-    this.statusCode = statusCode;
-    this.inOperational = isOperational;
+    this.name = this.constructor.name;
     Error.captureStackTrace(this, this.constructor);
+  }
+}
+
+export class ValidationError extends CustomError {
+  constructor(message: string) {
+    super(message, 400);
+  }
+}
+
+export class AuthenticationError extends CustomError {
+  constructor(message: string) {
+    super(message, 401);
+  }
+}
+
+export class NotFoundError extends CustomError {
+  constructor(message: string) {
+    super(message, 404);
   }
 }

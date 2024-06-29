@@ -1,6 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { ISpotifyService } from "../interface/interface";
-import { CustomError } from "../utils/customError";
+import {
+  ValidationError,
+  AuthenticationError,
+  NotFoundError,
+} from "../utils/customError";
 import { AuthorizationResponse, LoginStateResponse } from "../types/types";
 
 const asyncHandler =
@@ -22,10 +26,10 @@ export class SpotifyController {
     const { error, code } = req.query;
 
     if (error) {
-      throw new CustomError(`Callback Error: ${error}`, 400);
+      throw new AuthenticationError(`Callback Error: ${error}`);
     }
     if (!code || typeof code !== "string") {
-      throw new CustomError('Missing "code" query parameter', 400);
+      throw new ValidationError('Missing "code" query parameter');
     }
 
     try {
@@ -54,7 +58,7 @@ export class SpotifyController {
       const { loginState } = req.body;
 
       if (!loginState) {
-        throw new CustomError("No login state provided", 400);
+        throw new ValidationError("No login state provided");
       }
 
       if (loginState === "true") {
@@ -68,14 +72,13 @@ export class SpotifyController {
   getCurrentTrack = asyncHandler(async (req: Request, res: Response) => {
     const data = await this.spotifyService.getCurrentTrack();
     if (data === null) {
-      res.status(204).json({ message: "No track currently playing" });
+      throw new NotFoundError("No track currently playing");
     } else {
       const trackName = data.body.item.name;
       res.json({
         trackName: trackName,
         artistName: data.body.item.artists[0].name,
         albumName: data.body.item.album.name,
-      
       });
     }
   });
