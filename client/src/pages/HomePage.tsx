@@ -1,7 +1,7 @@
-import LoginWithSpotify from "../component/LoginWithSpotify";
+import LoginSpotify from "../component/LoginWithSpotify";
 
 function HomePage() {
-  return <LoginWithSpotify/>
+  return <LoginSpotify />;
 }
 
 export default HomePage;

@@ -13,32 +13,32 @@ export class SpotifyRepository implements ISpotifyReposity {
     });
   }
 
-  getSpotifyWebApi(): SpotifyWebApi {
+  public getSpotifyWebApi(): SpotifyWebApi {
     return this.spotifyWebApi;
   }
 
-  getAccessToken(): string | undefined {
+  public getAccessToken(): string | undefined {
     return this.spotifyWebApi.getAccessToken();
   }
 
-  getRefreshToken(): string | undefined {
+  public getRefreshToken(): string | undefined {
     return this.spotifyWebApi.getRefreshToken();
   }
 
-  setAccessToken(token: string) {
+  public setAccessToken(token: string) {
     return this.spotifyWebApi.setAccessToken(token);
   }
 
-  setRefreshToken(token: string) {
+  public setRefreshToken(token: string) {
     return this.spotifyWebApi.setRefreshToken(token);
   }
 
-  async refreshAccessToken(): Promise<string> {
+  public async refreshAccessToken(): Promise<string> {
     const data = await this.spotifyWebApi.refreshAccessToken();
     return data.body.access_token;
   }
 
-  getCurrentTrack(): Promise<any> {
+  public getCurrentTrack(): Promise<any> {
     return this.spotifyWebApi.getMyCurrentPlayingTrack();
   }
 }

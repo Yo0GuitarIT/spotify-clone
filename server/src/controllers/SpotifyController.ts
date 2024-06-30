@@ -15,19 +15,19 @@ const asyncHandler =
 export class SpotifyController {
   constructor(private spotifyService: ISpotifyService) {}
 
-  login = asyncHandler(
+  public login = asyncHandler(
     async (req: Request, res: Response<AuthorizationResponse>) => {
       const authUrl = this.spotifyService.createAuthUrl();
       res.json({ success: true, url: authUrl });
     }
   );
 
-  logout = asyncHandler(async (req: Request, res: Response) => {
+  public logout = asyncHandler(async (req: Request, res: Response) => {
     this.spotifyService.logout();
     res.json({ success: true, message: "Logged out successfully" });
   });
 
-  callback = asyncHandler(async (req: Request, res: Response) => {
+  public callback = asyncHandler(async (req: Request, res: Response) => {
     const { error, code } = req.query;
 
     if (error) {
@@ -58,7 +58,7 @@ export class SpotifyController {
     }
   });
 
-  validLoginState = asyncHandler(
+  public validLoginState = asyncHandler(
     async (req: Request, res: Response<LoginStateResponse>) => {
       const { loginState } = req.body;
 
@@ -74,7 +74,7 @@ export class SpotifyController {
     }
   );
 
-  getCurrentTrack = asyncHandler(async (req: Request, res: Response) => {
+  public getCurrentTrack = asyncHandler(async (req: Request, res: Response) => {
     const data = await this.spotifyService.getCurrentTrack();
     if (data === null) {
       throw new NotFoundError("No track currently playing");

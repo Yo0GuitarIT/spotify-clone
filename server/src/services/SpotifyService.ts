@@ -42,14 +42,14 @@ export class SpotifyService implements ISpotifyService {
     }
   }
 
-  createAuthUrl(): string {
+  public createAuthUrl(): string {
     const state = this.generateRandomString(16);
     return this.spotifyRepository
       .getSpotifyWebApi()
       .createAuthorizeURL(SPOTIFY_SCOPE, state, this.showDialog);
   }
 
-  async handleCallback(code: string): Promise<boolean> {
+  public async handleCallback(code: string): Promise<boolean> {
     try {
       const data = await this.spotifyRepository
         .getSpotifyWebApi()
@@ -73,7 +73,7 @@ export class SpotifyService implements ISpotifyService {
     this.spotifyRepository.setRefreshToken("");
   }
 
-  getToken(): string | undefined {
+  public getToken(): string | undefined {
     return this.spotifyRepository.getAccessToken();
   }
 

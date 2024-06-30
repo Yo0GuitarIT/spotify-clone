@@ -1,6 +1,6 @@
 import { useAuth } from "../hooks/useAuth";
 
-function LoginWithSpotify() {
+function LoginSpotify() {
   const { isAuthenticated, isLoading, login, logout } = useAuth();
 
   if (isLoading) {
@@ -24,4 +24,4 @@ function LoginWithSpotify() {
   );
 }
 
-export default LoginWithSpotify;
+export default LoginSpotify;
