@@ -1,10 +1,10 @@
 import { useAuth } from "../hooks/useAuth";
 function Login() {
-  const { login } = useAuth();
+  const { initateLogin } = useAuth();
   return (
     <>
       <h1>Please Login~~</h1>
-      <button onClick={login}>Login</button>
+      <button onClick={initateLogin}>Login</button>
     </>
   );
 }

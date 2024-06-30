@@ -30,7 +30,11 @@ export const useAuth = () => {
     }
   }, []);
 
-  const initateLogin = async () => {
+  useEffect(() => {
+    verifyAuthStatus();
+  }, [verifyAuthStatus]);
+
+  const initateLogin = useCallback(async () => {
     try {
       const loginResponse: ApiResponse = await loginSpotify();
       if (loginResponse.success && loginResponse.url) {
@@ -42,14 +46,14 @@ export const useAuth = () => {
       console.error("Error during Spotify login:", error);
       // todo Implement user-facing error handling
     }
-  };
+  }, []);
 
   const handleCallback = useCallback((accessToken: string) => {
     localStorage.setItem("login_success", accessToken);
     setIsAuthenticated(true);
   }, []);
 
-  const logoutUser = async () => {
+  const logoutUser = useCallback(async () => {
     try {
       await logoutSpotify();
       localStorage.removeItem("login_success");
@@ -59,18 +63,13 @@ export const useAuth = () => {
       console.log("logout fail");
       // todo Implement user-facing error handling
     }
-  };
-
-  useEffect(() => {
-    verifyAuthStatus();
-  }, [verifyAuthStatus]);
-
+  }, []);
   return {
     isAuthenticated,
     isLoading,
-    login: initateLogin,
+    initateLogin,
     handleCallback,
-    logout: logoutUser,
-    checkAuth: verifyAuthStatus,
+    logoutUser,
+    verifyAuthStatus,
   };
 };

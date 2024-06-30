@@ -7,20 +7,21 @@ function AuthCallbackPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    const processAuthCallback = () => {
-      const params = new URLSearchParams(location.search);
-      const loginState = params.get("login_success");
+  const processAuthCallback = () => {
+    const params = new URLSearchParams(location.search);
+    const loginState = params.get("login_success");
 
-      if (loginState) {
-        console.log("get login state");
-        handleCallback(loginState);
-        navigate("/");
-      } else {
-        console.error("missing login state");
-        navigate("/login");
-      }
-    };
+    if (loginState) {
+      console.log("get login state");
+      handleCallback(loginState);
+      navigate("/");
+    } else {
+      console.error("missing login state");
+      navigate("/login");
+    }
+  };
+  
+  useEffect(() => {
     processAuthCallback();
   }, [navigate, location, handleCallback]);
 
