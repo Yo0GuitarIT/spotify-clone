@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   validLoginState,
   loginSpotify,
@@ -10,7 +10,7 @@ export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const checkAuth = async () => {
+  const checkAuth = useCallback(async () => {
     const loginState = localStorage.getItem("login_success");
     if (loginState) {
       try {
@@ -20,9 +20,11 @@ export const useAuth = () => {
         console.error("Token validation failed:", error);
         setIsAuthenticated(false);
       }
+    } else {
+      setIsAuthenticated(false);
     }
     setIsLoading(false);
-  };
+  }, []);
 
   const login = async (): Promise<void> => {
     try {
@@ -37,10 +39,10 @@ export const useAuth = () => {
     }
   };
 
-  const handleCallback = (accessToken: string) => {
+  const handleCallback = useCallback((accessToken: string) => {
     localStorage.setItem("login_success", accessToken);
     setIsAuthenticated(true);
-  };
+  }, []);
 
   const logout = async () => {
     try {
@@ -48,6 +50,7 @@ export const useAuth = () => {
       if (response) {
         localStorage.removeItem("login_success");
         setIsAuthenticated(false);
+        window.location.href = "/login";
       }
     } catch (error) {
       console.log("logout fail");
@@ -58,5 +61,12 @@ export const useAuth = () => {
     checkAuth();
   }, []);
 
-  return { isAuthenticated, isLoading, login, handleCallback, logout };
+  return {
+    isAuthenticated,
+    isLoading,
+    login,
+    handleCallback,
+    logout,
+    checkAuth,
+  };
 };

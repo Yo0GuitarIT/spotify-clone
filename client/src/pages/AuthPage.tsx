@@ -5,7 +5,7 @@ import { useAuth } from "../hooks/useAuth";
 function AuthCallbackPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { handleCallback } = useAuth();
+  const { handleCallback ,checkAuth} = useAuth();
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -14,12 +14,12 @@ function AuthCallbackPage() {
     if (loginState) {
       console.log("get login state");
       handleCallback(loginState);
-      navigate("/");
+      checkAuth().then(()=>navigate("/"));
     } else {
       console.error("missing login state");
-      navigate("/");
+      navigate("/login");
     }
-  }, [navigate, location, handleCallback]);
+  }, [navigate, location, handleCallback,checkAuth]);
 
   return <div>Processing authentication...</div>;
 }

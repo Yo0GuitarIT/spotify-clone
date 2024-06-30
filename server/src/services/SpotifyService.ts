@@ -31,7 +31,7 @@ export class SpotifyService implements ISpotifyService {
       } catch (error) {
         console.error("Error refreshing access token: ", error);
       }
-    }, (expiresIn / 60) * 1000);
+    }, (expiresIn / 2) * 1000);
   }
 
   public stopTokenRefresh(): void {
