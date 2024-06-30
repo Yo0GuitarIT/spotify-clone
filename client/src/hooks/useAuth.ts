@@ -10,32 +10,37 @@ export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const checkAuth = useCallback(async () => {
-    const loginState = localStorage.getItem("login_success");
-    if (loginState) {
-      try {
-        const response = await validLoginState(loginState);
-        setIsAuthenticated(response.success);
-      } catch (error) {
-        console.error("Token validation failed:", error);
-        setIsAuthenticated(false);
-      }
-    } else {
+  const verifyAuthStatus = useCallback(async () => {
+    const storedLoginState = localStorage.getItem("login_success");
+
+    if (!storedLoginState) {
       setIsAuthenticated(false);
+      setIsLoading(false);
+      return;
     }
-    setIsLoading(false);
+
+    try {
+      const response = await validLoginState(storedLoginState);
+      setIsAuthenticated(response.success);
+    } catch (error) {
+      console.error("Token validation failed:", error);
+      setIsAuthenticated(false);
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
 
-  const login = async (): Promise<void> => {
+  const initateLogin = async () => {
     try {
-      const data: ApiResponse = await loginSpotify();
-      if (data.success && data.url) {
-        window.location.href = data.url;
+      const loginResponse: ApiResponse = await loginSpotify();
+      if (loginResponse.success && loginResponse.url) {
+        window.location.href = loginResponse.url;
       } else {
-        console.error("Login failed or URL not provided.");
+        throw new Error("Login faild: No redirect URL Provided");
       }
     } catch (error) {
       console.error("Error during Spotify login:", error);
+      // todo Implement user-facing error handling
     }
   };
 
@@ -44,29 +49,28 @@ export const useAuth = () => {
     setIsAuthenticated(true);
   }, []);
 
-  const logout = async () => {
+  const logoutUser = async () => {
     try {
-      const response = await logoutSpotify();
-      if (response) {
-        localStorage.removeItem("login_success");
-        setIsAuthenticated(false);
-        window.location.href = "/login";
-      }
+      await logoutSpotify();
+      localStorage.removeItem("login_success");
+      setIsAuthenticated(false);
+      window.location.href = "/login";
     } catch (error) {
       console.log("logout fail");
+      // todo Implement user-facing error handling
     }
   };
 
   useEffect(() => {
-    checkAuth();
-  }, []);
+    verifyAuthStatus();
+  }, [verifyAuthStatus]);
 
   return {
     isAuthenticated,
     isLoading,
-    login,
+    login: initateLogin,
     handleCallback,
-    logout,
-    checkAuth,
+    logout: logoutUser,
+    checkAuth: verifyAuthStatus,
   };
 };

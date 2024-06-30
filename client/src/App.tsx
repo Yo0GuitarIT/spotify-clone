@@ -1,47 +1,37 @@
-import { useEffect } from "react";
-import {
-  BrowserRouter,
-  Navigate,
-  Route,
-  Routes,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
-import Login from "./pages/LoginPage";
 
+import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
-import AuthCallbackPage from "./pages/AuthPage";
+import AuthCallbackPage from "./pages/AuthCallbackPage";
 
-function AppComponent() {
-  const { isAuthenticated, isLoading, checkAuth } = useAuth();
-  const location = useLocation();
-
-  useEffect(() => {
-    checkAuth();
-  }, [location, checkAuth]);
+function ProtectedRoute({ children }: any) {
+  const { isAuthenticated, isLoading } = useAuth();
 
   if (isLoading) {
-    return <div>Loading</div>;
+    return <div>Loading...</div>;
   }
 
-  return (
-    <Routes>
-      <Route path="/" element={!isAuthenticated ? <Login /> : <HomePage />} />
-      <Route
-        path="/login"
-        element={isAuthenticated ? <Login /> : <Navigate to="/" />}
-      />
-      <Route path="/auth-callback" element={<AuthCallbackPage />} />
-    </Routes>
-  )
+  return isAuthenticated ? children : <Navigate to="/login" />;
 }
 
 function App() {
   return (
     <BrowserRouter>
-      <AppComponent />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <HomePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/auth-callback" element={<AuthCallbackPage />} />
+      </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
 export default App;
