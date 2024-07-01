@@ -50,13 +50,15 @@ function HomePage() {
                              hover:bg-[#282828] cursor-pointer"
                 >
                   <img
-                    src="placeholder-image-url"
+                    src="https://i.scdn.co/image/ab67616d000048514fa36b14a276fe560940baa0"
                     alt="Album cover"
                     className="size-12 rounded"
                   />
                   <div className="flex flex-col gap-[2px]">
-                    <p className="text-white font-medium">Item {index + 1}</p>
-                    <p className="text-sm text-[#a7a7a7]">Subtitle</p>
+                    <p className="text-white font-medium">
+                      宇多田光 {index + 1}
+                    </p>
+                    <p className="text-sm text-[#a7a7a7]">First Love</p>
                   </div>
                 </div>
               ))}
@@ -64,7 +66,7 @@ function HomePage() {
           </div>
         </aside>
         <div className="flex-1 rounded-lg bg-[#181818] flex flex-col overflow-hidden">
-          <header className="h-16 px-6 flex items-center justify-end bg-[#121212]">
+          <header className="h-16 px-4 flex items-center justify-end  max-w-[1955px]">
             <div className="flex items-center gap-2">
               <button
                 onClick={logoutUser}
@@ -79,8 +81,31 @@ function HomePage() {
               </button>
             </div>
           </header>
-          <div className="flex-1 overflow-y-auto p-8">
-            {/* Main content goes here */}
+          <div className="flex-1 max-w-[1955px] px-4">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3">
+              {[...Array(8)].map((_, index) => (
+                <div
+                  key={index}
+                  className="bg-[#2a2a2a] rounded-md h-20 hover:bg-[#585858] group transition-colors duration-200 cursor-pointer overflow-hidden flex items-center relative"
+                >
+                  <img
+                    src="https://i.scdn.co/image/ab67616d00001e0290ceed4862375f0d68f55002"
+                    alt={`Playlist ${index + 1}`}
+                    className="size-20"
+                  />
+                  <div className="ml-4 flex-grow">
+                    <span className="text-sm font-bold truncate">
+                      最愛...動力火車
+                    </span>
+                  </div>
+                  <div className="absolute right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <button className="bg-[#1ed760] rounded-full p-3 shadow-lg">
+                      <ArrowRightIcon className="w-6 h-6 text-black" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
