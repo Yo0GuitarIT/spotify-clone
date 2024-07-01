@@ -20,7 +20,7 @@ spotifyRouter.post(
   spotifyController.validLoginState.bind(spotifyController)
 );
 spotifyRouter.get(
-  "/getCurrentTrack",
-  spotifyController.getCurrentTrack.bind(spotifyController)
+  "/getUserProfile",
+  spotifyController.getUserProfile.bind(spotifyController)
 );
 export default spotifyRouter;

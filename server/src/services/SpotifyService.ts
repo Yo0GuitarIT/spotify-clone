@@ -77,7 +77,7 @@ export class SpotifyService implements ISpotifyService {
     return this.spotifyRepository.getAccessToken();
   }
 
-  async getCurrentTrack(): Promise<any> {
-    return this.spotifyRepository.getCurrentTrack();
+  async getUserProfile(): Promise<any> {
+    return this.spotifyRepository.getUserProfile();
   }
 }

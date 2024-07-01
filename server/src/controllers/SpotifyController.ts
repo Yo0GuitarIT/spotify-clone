@@ -74,16 +74,13 @@ export class SpotifyController {
     }
   );
 
-  public getCurrentTrack = asyncHandler(async (req: Request, res: Response) => {
-    const data = await this.spotifyService.getCurrentTrack();
+  public getUserProfile= asyncHandler(async (req: Request, res: Response) => {
+    const data = await this.spotifyService.getUserProfile();
     if (data === null) {
       throw new NotFoundError("No track currently playing");
     } else {
-      const trackName = data.body.item.name;
       res.json({
-        trackName: trackName,
-        artistName: data.body.item.artists[0].name,
-        albumName: data.body.item.album.name,
+        data
       });
     }
   });

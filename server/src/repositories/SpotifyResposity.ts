@@ -38,7 +38,7 @@ export class SpotifyRepository implements ISpotifyReposity {
     return data.body.access_token;
   }
 
-  public getCurrentTrack(): Promise<any> {
-    return this.spotifyWebApi.getMyCurrentPlayingTrack();
+  public getUserProfile(): Promise<any> {
+    return this.spotifyWebApi.getMe();
   }
 }

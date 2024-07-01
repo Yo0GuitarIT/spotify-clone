@@ -6,7 +6,7 @@ export interface ISpotifyReposity {
   setRefreshToken(token: string): string | void;
   refreshAccessToken(): Promise<string>;
 
-  getCurrentTrack(): Promise<any>;
+  getUserProfile(): Promise<any>;
 }
 
 export interface ISpotifyService {
@@ -14,5 +14,5 @@ export interface ISpotifyService {
   handleCallback(code: string): Promise<boolean>;
   getToken(): string | undefined;
   logout(): void;
-  getCurrentTrack(): Promise<any>;
+  getUserProfile(): Promise<any>;
 }
