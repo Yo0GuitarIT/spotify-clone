@@ -3,3 +3,7 @@ export interface ApiResponse {
   message: string;
   url?: string;
 }
+
+export interface IconProps {
+  className?: string;
+}
