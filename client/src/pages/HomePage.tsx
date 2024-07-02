@@ -1,4 +1,5 @@
 import { useAuth } from "../hooks/useAuth";
+import { useState } from "react";
 import {
   HomeIcon,
   SearchIcon,
@@ -6,10 +7,15 @@ import {
   ArrowRightIcon,
   LibraryIcon,
   LogoutIcon,
+  PlayIcon,
+  PreviousIcon,
+  NextIcon,
+  VolumeIcon,
 } from "../component/Icons";
 
 function HomePage() {
   const { logoutUser } = useAuth();
+  const [volume, setVolume] = useState(50);
 
   return (
     <main className="flex h-screen w-screen flex-col gap-2 bg-black p-2 text-white">
@@ -55,9 +61,7 @@ function HomePage() {
                     className="size-12 rounded"
                   />
                   <div className="flex flex-col gap-[2px]">
-                    <p className="text-white font-medium">
-                      宇多田光 {index + 1}
-                    </p>
+                    <p className="text-white">宇多田光 {index + 1}</p>
                     <p className="text-sm text-[#a7a7a7]">First Love</p>
                   </div>
                 </div>
@@ -66,7 +70,7 @@ function HomePage() {
           </div>
         </aside>
         <div className="flex-1 rounded-lg bg-[#181818] flex flex-col overflow-hidden">
-          <header className="h-16 px-4 flex items-center justify-end  max-w-[1955px]">
+          <header className="h-16 px-6 flex items-center justify-end  max-w-[1955px]">
             <div className="flex items-center gap-2">
               <button
                 onClick={logoutUser}
@@ -81,7 +85,7 @@ function HomePage() {
               </button>
             </div>
           </header>
-          <div className="flex-1 max-w-[1955px] px-4">
+          <div className="flex-1 max-w-[1955px] px-6 flex flex-col gap-6 overflow-y-auto custom-scrollbar">
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3">
               {[...Array(8)].map((_, index) => (
                 <div
@@ -106,11 +110,101 @@ function HomePage() {
                 </div>
               ))}
             </div>
+
+            {Array(4)
+              .fill(null)
+              .map((_, sectionIndex) => (
+                <div key={sectionIndex}>
+                  <div className="h-[60px] flex flex-col-reverse mb-2">
+                    <h2 className="text-2xl font-bold">
+                      專為 Chen Yu Ling 精心打造 {sectionIndex + 1}
+                    </h2>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+                    {[...Array(8)].map((_, index) => (
+                      <button
+                        key={index}
+                        className="group relative flex flex-col h-full"
+                      >
+                        <div className="relative w-full pt-[100%] rounded-lg overflow-hidden">
+                          <img
+                            src="https://i.scdn.co/image/ab67616d00001e0290ceed4862375f0d68f55002"
+                            alt="img"
+                            className="absolute inset-0 w-full h-full object-cover"
+                          />
+                          <div className="absolute inset-0 bg-black bg-opacity-10"></div>
+                          <div className="absolute bottom-2 right-2 bg-[#1DB954] rounded-full p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg">
+                            <PlayIcon className="size-6 text-black" />
+                          </div>
+                        </div>
+                        <div className="mt-4 text-left flex-grow">
+                          <h3 className="font-bold text-base truncate">
+                            Daily Mix
+                          </h3>
+                          <p className="text-sm text-gray-400 mt-1 line-clamp-2">
+                            康士坦的變化球、Mary See the Future 先知瑪莉、The
+                            Beatles、Cream、Puddle Of Mudd
+                          </p>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
       </div>
-      <footer className="h-[72px] w-full rounded-lg flex-shrink-0">
-        Now playing bar
+      <footer className="h-[72px] w-full rounded-lg flex justify-between flex-shrink-0">
+        <div className="flex-1 flex items-center gap-2">
+          <img
+            src="https://i.scdn.co/image/ab67616d00001e0290ceed4862375f0d68f55002"
+            alt="img"
+            className="rounded-sm size-14"
+          />
+          <div className="flex flex-col gap-[2px]">
+            <p className="text-white">宇多田光 </p>
+            <p className="text-sm text-[#a7a7a7]">First Love</p>
+          </div>
+        </div>
+        <div className="flex-1 flex items-center justify-center">
+          <button className="size-8 flex items-center justify-center text-white hover:text-[#1DB954] transition-colors">
+            <PreviousIcon className="size-6 text-gray-500" />
+          </button>
+          <button className="size-12 bg-[#1DB954] rounded-full mx-4 flex items-center justify-center hover:scale-105 transition-transform">
+            <PlayIcon className="size-6 text-black" />
+          </button>
+          <button className="size-8 flex items-center justify-center text-white hover:text-[#1DB954] transition-colors">
+            <NextIcon className="size-6 text-gray-500" />
+          </button>
+        </div>
+        <div className="flex-1 flex items-center justify-end">
+          <div className="flex items-center space-x-2">
+            <VolumeIcon className="size-6 text-[#b3b3b3] hover:text-white transition-colors" />
+            <div className="w-24 group mb-2">
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={volume}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setVolume(Number(e.target.value))
+                }
+                className="w-full h-1 bg-[#535353] rounded-full appearance-none cursor-pointer
+               [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3
+               [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:cursor-pointer
+               [&::-webkit-slider-thumb]:opacity-0 [&::-webkit-slider-thumb]:transition-opacity
+               [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:h-3
+               [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:cursor-pointer
+               [&::-moz-range-thumb]:opacity-0 [&::-moz-range-thumb]:transition-opacity
+               group-hover:[&::-webkit-slider-thumb]:opacity-100
+               group-hover:[&::-moz-range-thumb]:opacity-100"
+                style={{
+                  background: `linear-gradient(to right, #1DB954 0%, #1DB954 ${volume}%, #535353 ${volume}%, #535353 100%)`,
+                }}
+              />
+            </div>
+          </div>
+        </div>
       </footer>
     </main>
   );
