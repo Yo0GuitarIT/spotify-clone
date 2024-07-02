@@ -7,6 +7,7 @@ export interface ISpotifyReposity {
   refreshAccessToken(): Promise<string>;
 
   getUserProfile(): Promise<any>;
+  getMyRecentlyPlayedTracks(): Promise<any>;
 }
 
 export interface ISpotifyService {
@@ -15,4 +16,5 @@ export interface ISpotifyService {
   getToken(): string | undefined;
   logout(): void;
   getUserProfile(): Promise<any>;
+  getMyRecentlyPlayedTracks(): Promise<any>;
 }

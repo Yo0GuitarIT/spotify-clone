@@ -74,14 +74,45 @@ export class SpotifyController {
     }
   );
 
-  public getUserProfile= asyncHandler(async (req: Request, res: Response) => {
+  public getUserProfile = asyncHandler(async (req: Request, res: Response) => {
     const data = await this.spotifyService.getUserProfile();
     if (data === null) {
       throw new NotFoundError("No track currently playing");
     } else {
       res.json({
-        data
+        success: true,
+        imageUrl: data.body.images[0],
+        data: data,
       });
     }
   });
+
+  public getMyRecentlyPlayedTracks = asyncHandler(
+    async (req: Request, res: Response) => {
+      const data = await this.spotifyService.getMyRecentlyPlayedTracks();
+      if (data === null || data.body.items.length === 0) {
+        throw new NotFoundError("No recently played tracks found");
+      } else {
+        const extractedData = data.body.items.map(
+          (item: {
+            track: {
+              artists: { name: any }[];
+              name: any;
+              album: { images: { url: any }[] };
+            };
+           
+          }) => ({
+            artist: item.track.artists[0].name,
+            song: item.track.name,
+            albumCoverUrl: item.track.album.images[2].url,
+           
+          })
+        );
+        res.json({
+          success: true,
+          data: extractedData,
+        });
+      }
+    }
+  );
 }

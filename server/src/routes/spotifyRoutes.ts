@@ -23,4 +23,9 @@ spotifyRouter.get(
   "/getUserProfile",
   spotifyController.getUserProfile.bind(spotifyController)
 );
+
+spotifyRouter.get(
+  "/getMyRecentlyPlayedTracks",
+  spotifyController.getMyRecentlyPlayedTracks.bind(spotifyController)
+);
 export default spotifyRouter;

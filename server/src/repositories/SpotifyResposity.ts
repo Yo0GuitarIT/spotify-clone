@@ -41,4 +41,8 @@ export class SpotifyRepository implements ISpotifyReposity {
   public getUserProfile(): Promise<any> {
     return this.spotifyWebApi.getMe();
   }
+
+  public getMyRecentlyPlayedTracks(): Promise<any>{
+    return this.spotifyWebApi.getMyRecentlyPlayedTracks({limit:20});
+  }
 }

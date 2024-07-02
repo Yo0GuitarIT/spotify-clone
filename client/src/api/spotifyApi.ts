@@ -49,3 +49,39 @@ export const validLoginState = async (loginState: string) => {
     throw error;
   }
 };
+
+export const getUserProfile = async () => {
+  try {
+    const response = await fetch("api/spotify/getUserProfile", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`Get User Profile Failed: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error get user Proile:", error);
+    throw error;
+  }
+};
+
+export const getUserRecentlyPlayedTracks = async () => {
+  try {
+    const response = await fetch("api/spotify/getMyRecentlyPlayedTracks", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`Get User Profile Failed: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error get user Proile:", error);
+    throw error;
+  }
+};
