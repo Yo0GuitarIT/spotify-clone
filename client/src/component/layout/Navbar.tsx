@@ -1,6 +1,6 @@
-import { useAuth } from "../hooks/useAuth";
-import { useUserProfile } from "../hooks/useUserProfile";
-import { LogoutIcon } from "../component/Icons";
+import { useAuth } from "../../hooks/useAuth";
+import { useUserProfile } from "../../hooks/useUserProfile";
+import { LogoutIcon } from "../Icons";
 
 function Navbar() {
   const { logoutUser } = useAuth();

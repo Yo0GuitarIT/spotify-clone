@@ -4,8 +4,8 @@ import {
   LibraryIcon,
   PlusIcon,
   ArrowRightIcon,
-} from "../component/Icons";
-import { useUserRecentltPlayedTrack } from "../hooks/useUserRecentlyPlayedTracks";
+} from "../Icons";
+import { useUserRecentltPlayedTrack } from "../../hooks/useUserRecentlyPlayedTracks";
 
 function Sidebar() {
   const { tracks } = useUserRecentltPlayedTrack();

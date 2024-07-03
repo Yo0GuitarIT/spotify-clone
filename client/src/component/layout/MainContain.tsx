@@ -1,4 +1,4 @@
-import { PlayIcon, ArrowRightIcon } from "../component/Icons";
+import { PlayIcon, ArrowRightIcon } from "../Icons";
 import Navbar from "./Navbar";
 
 function MainContent() {

@@ -1,6 +1,6 @@
-import Sidebar from "../layout/Sidebar";
-import Footer from "../layout/Footer";
-import MainContent from "../layout/MainContain";
+import Sidebar from "../component/layout/Sidebar";
+import Playerbar from "../component/layout/Playerbar/Playerbar";
+import MainContent from "../component/layout/MainContain";
 
 function HomePage() {
   return (
@@ -10,7 +10,7 @@ function HomePage() {
         <MainContent />
       </div>
 
-      <Footer />
+      <Playerbar />
     </main>
   );
 }
