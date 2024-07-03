@@ -71,6 +71,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const handleCallback = useCallback((accessToken: string) => {
     localStorage.setItem("login_success", accessToken);
     setIsAuthenticated(true);
+    setIsLoading(false);
   }, []);
 
   const logoutUser = useCallback(async () => {

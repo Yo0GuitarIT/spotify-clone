@@ -7,9 +7,7 @@ interface UserProfileImage {
   width: number;
 }
 
-interface UserProfileData {
-  imageUrl: UserProfileImage;
-}
+
 
 export const useUserProfile = () => {
   const [profile, setProfile] = useState<UserProfileImage | null>(null);
