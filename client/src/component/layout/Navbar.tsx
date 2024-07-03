@@ -1,4 +1,4 @@
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../contexts/AuthContext";
 import { useUserProfile } from "../../hooks/useUserProfile";
 import { LogoutIcon } from "../Icons";
 

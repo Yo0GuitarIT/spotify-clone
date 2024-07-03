@@ -1,4 +1,10 @@
-import { useState, useEffect, useCallback } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import {
   validLoginState,
   loginSpotify,
@@ -6,13 +12,27 @@ import {
 } from "../api/spotifyApi";
 import { ApiResponse } from "../types/types";
 
-export const useAuth = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+interface AuthContextType {
+  isAuthenticated: boolean | null;
+  isLoading: boolean;
+  initateLogin: () => Promise<void>;
+  handleCallback: (accessToken: string) => void;
+  logoutUser: () => Promise<void>;
+  verifyAuthStatus: () => Promise<void>;
+}
+
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined
+);
+
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const verifyAuthStatus = useCallback(async () => {
     const storedLoginState = localStorage.getItem("login_success");
-
     if (!storedLoginState) {
       setIsAuthenticated(false);
       setIsLoading(false);
@@ -40,11 +60,11 @@ export const useAuth = () => {
       if (loginResponse.success && loginResponse.url) {
         window.location.href = loginResponse.url;
       } else {
-        throw new Error("Login faild: No redirect URL Provided");
+        throw new Error("Login failed: No redirect URL Provided");
       }
     } catch (error) {
       console.error("Error during Spotify login:", error);
-      // todo Implement user-facing error handling
+      // TODO: Implement user-facing error handling
     }
   }, []);
 
@@ -61,15 +81,30 @@ export const useAuth = () => {
       window.location.href = "/login";
     } catch (error) {
       console.log("logout fail");
-      // todo Implement user-facing error handling
+      // TODO: Implement user-facing error handling
     }
   }, []);
-  return {
-    isAuthenticated,
-    isLoading,
-    initateLogin,
-    handleCallback,
-    logoutUser,
-    verifyAuthStatus,
-  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        isAuthenticated,
+        isLoading,
+        initateLogin,
+        handleCallback,
+        logoutUser,
+        verifyAuthStatus,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
 };
