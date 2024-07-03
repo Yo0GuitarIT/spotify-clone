@@ -80,8 +80,12 @@ export class SpotifyService implements ISpotifyService {
   async getUserProfile(): Promise<any> {
     return this.spotifyRepository.getUserProfile();
   }
-  
+
   async getMyRecentlyPlayedTracks(): Promise<any> {
-    return this.spotifyRepository.getMyRecentlyPlayedTracks();  
+    return this.spotifyRepository.getMyRecentlyPlayedTracks();
+  }
+
+  async getNewReleases(): Promise<any> {
+    return this.spotifyRepository.getNewReleases();
   }
 }

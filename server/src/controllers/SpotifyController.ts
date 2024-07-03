@@ -100,12 +100,10 @@ export class SpotifyController {
               name: any;
               album: { images: { url: any }[] };
             };
-           
           }) => ({
             artist: item.track.artists[0].name,
             song: item.track.name,
             albumCoverUrl: item.track.album.images[2].url,
-           
           })
         );
         res.json({
@@ -115,4 +113,9 @@ export class SpotifyController {
       }
     }
   );
+
+  public getNewReleases = asyncHandler(async (req: Request, res: Response) => {
+    const data = await this.spotifyService.getNewReleases();
+    res.json({ data: data });
+  });
 }

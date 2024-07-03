@@ -28,4 +28,9 @@ spotifyRouter.get(
   "/getMyRecentlyPlayedTracks",
   spotifyController.getMyRecentlyPlayedTracks.bind(spotifyController)
 );
+
+spotifyRouter.get(
+  "/getNewReleases",
+  spotifyController.getNewReleases.bind(spotifyController)
+);
 export default spotifyRouter;
