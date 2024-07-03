@@ -1,12 +1,13 @@
 import { PlayIcon } from "../../Icons";
+import { PersonalizedCardProps } from "../../../types/types";
 
-function PersonalizedCard() {
+function PersonalizedCard({ release }: PersonalizedCardProps) {
   return (
     <button className="group relative flex flex-col h-full">
       <div className="relative w-full pt-[100%] rounded-lg overflow-hidden">
         <img
-          src="https://i.scdn.co/image/ab67616d00001e0290ceed4862375f0d68f55002"
-          alt="img"
+          src={release.albumCoverUrl}
+          alt={release.name}
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black bg-opacity-10"></div>
@@ -15,10 +16,9 @@ function PersonalizedCard() {
         </div>
       </div>
       <div className="mt-4 text-left flex-grow">
-        <h3 className="font-bold text-base truncate">Daily Mix</h3>
+        <h3 className="font-bold text-base line-clamp-1">{release.name}</h3>
         <p className="text-sm text-gray-400 mt-1 line-clamp-2">
-          康士坦的變化球、Mary See the Future 先知瑪莉、The
-          Beatles、Cream、Puddle Of Mudd
+          {release.artist}
         </p>
       </div>
     </button>
