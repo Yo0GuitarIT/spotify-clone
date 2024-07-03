@@ -116,6 +116,21 @@ export class SpotifyController {
 
   public getNewReleases = asyncHandler(async (req: Request, res: Response) => {
     const data = await this.spotifyService.getNewReleases();
-    res.json({ data: data });
+    const extractedData = data.body.albums.items.map(
+      (item: {
+        name: any;
+        artists: { name: any }[];
+        images: { url: any }[];
+      }) => ({
+        name: item.name,
+        artist: item.artists[0].name,
+        albumCoverUrl: item.images[0].url,
+      })
+    );
+
+    res.json({
+      success: true,
+      data: extractedData,
+    });
   });
 }

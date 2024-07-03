@@ -85,3 +85,21 @@ export const getUserRecentlyPlayedTracks = async () => {
     throw error;
   }
 };
+
+export const getNewReleases = async () => {
+  try {
+    const response = await fetch("api/spotify/getNewReleases", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`Get User Profile Failed: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error get user Proile:", error);
+    throw error;
+  }
+};
