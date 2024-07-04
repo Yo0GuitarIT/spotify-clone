@@ -139,3 +139,21 @@ export const getFeaturedPlaylists = async () => {
     throw error;
   }
 };
+
+export const getAccessToken = async () => {
+  try {
+    const response = await fetch("api/spotify/getAccessToken", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`Get AccessToken Failed: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error get Accesstoken", error);
+    throw error;
+  } 
+}

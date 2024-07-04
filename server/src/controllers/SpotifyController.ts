@@ -74,6 +74,14 @@ export class SpotifyController {
     }
   );
 
+  public getAccessToken = asyncHandler(async (req: Request, res: Response) => {
+    const data = this.spotifyService.getAccessToken();
+    res.json({
+      success: true,
+      data: data,
+    });
+  });
+
   public getUserProfile = asyncHandler(async (req: Request, res: Response) => {
     const data = await this.spotifyService.getUserProfile();
     if (data === null) {

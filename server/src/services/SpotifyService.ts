@@ -73,7 +73,7 @@ export class SpotifyService implements ISpotifyService {
     this.spotifyRepository.setRefreshToken("");
   }
 
-  public getToken(): string | undefined {
+  public getAccessToken(): string | undefined {
     return this.spotifyRepository.getAccessToken();
   }
 

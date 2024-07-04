@@ -1,6 +1,5 @@
 import {
   createContext,
-  useContext,
   useState,
   useEffect,
   useCallback,
@@ -10,16 +9,7 @@ import {
   loginSpotify,
   logoutSpotify,
 } from "../api/spotifyApi";
-import { ApiResponse } from "../types/types";
-
-interface AuthContextType {
-  isAuthenticated: boolean | null;
-  isLoading: boolean;
-  initateLogin: () => Promise<void>;
-  handleCallback: (accessToken: string) => void;
-  logoutUser: () => Promise<void>;
-  verifyAuthStatus: () => Promise<void>;
-}
+import { ApiResponse, AuthContextType } from "../types/types";
 
 export const AuthContext = createContext<AuthContextType | undefined>(
   undefined
@@ -100,12 +90,4 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       {children}
     </AuthContext.Provider>
   );
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
 };

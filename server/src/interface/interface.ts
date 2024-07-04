@@ -16,7 +16,7 @@ export interface ISpotifyReposity {
 export interface ISpotifyService {
   createAuthUrl(): string;
   handleCallback(code: string): Promise<boolean>;
-  getToken(): string | undefined;
+  getAccessToken(): string | undefined;
   logout(): void;
 
   getUserProfile(): Promise<any>;

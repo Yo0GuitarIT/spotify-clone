@@ -21,7 +21,7 @@ function PersonalizedSection() {
     <>
       <PersonalizedSectionItem title="New Releases" items={newReleases} />
       <PersonalizedSectionItem
-        title="featuredPlaylists"
+        title="Featured Playlists"
         items={featuredPlaylists}
       />
     </>
