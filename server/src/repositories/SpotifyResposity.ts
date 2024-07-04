@@ -54,7 +54,17 @@ export class SpotifyRepository implements ISpotifyReposity {
     });
   }
 
-  public getMyTopArtists(): Promise<any>{
+  public getMyTopArtists(): Promise<any> {
     return this.spotifyWebApi.getMyTopArtists();
+  }
+
+  public getFeaturedPlaylists(): Promise<any> {
+    return this.spotifyWebApi.getFeaturedPlaylists({
+      limit: 8,
+      offset: 0,
+      country: "TW",
+      locale: "zh_tw",
+      timestamp: "2014-10-23T09:00:00",
+    });
   }
 }

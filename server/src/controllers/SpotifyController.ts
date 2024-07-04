@@ -144,7 +144,28 @@ export class SpotifyController {
     );
     res.json({
       success: true,
-      extractedData,
+      data: extractedData,
     });
   });
+
+  public getFeaturedPlaylists = asyncHandler(
+    async (req: Request, res: Response) => {
+      const data = await this.spotifyService.getFeaturedPlaylists();
+      const extractedData = data.body.playlists.items.map(
+        (playlist: {
+          name: any;
+          description: any;
+          images: { url: any }[];
+        }) => ({
+          name: playlist.name,
+          description: playlist.description,
+          imageUrl: playlist.images[0]?.url || null,
+        })
+      );
+      res.json({
+        success: true,
+        data: extractedData,
+      });
+    }
+  );
 }

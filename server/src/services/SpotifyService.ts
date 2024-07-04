@@ -92,4 +92,8 @@ export class SpotifyService implements ISpotifyService {
   async getMyTopArtists(): Promise<any>{
     return this.spotifyRepository.getMyTopArtists();
   }
+
+  async getFeaturedPlaylists(): Promise<any>{
+    return this.spotifyRepository.getFeaturedPlaylists();
+  }
 }
