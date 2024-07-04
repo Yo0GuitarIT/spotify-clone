@@ -1,14 +1,18 @@
 import { PlayIcon } from "../../Icons";
-function RecentlyPlayedItem() {
+
+interface TopArtitstsItemProps {
+  artist: {
+    name: string;
+    imageUrl: string;
+  };
+}
+
+function TopArtistsItem({ artist }: TopArtitstsItemProps) {
   return (
     <div className="bg-[#2a2a2a] rounded-md h-20 hover:bg-[#585858] group transition-colors duration-200 cursor-pointer overflow-hidden flex items-center relative">
-      <img
-        src="https://i.scdn.co/image/ab67616d00001e0290ceed4862375f0d68f55002"
-        alt="Playlist"
-        className="size-20"
-      />
+      <img src={artist.imageUrl} alt={artist.name} className="size-20" />
       <div className="ml-4 flex-grow">
-        <span className="text-sm font-bold truncate">最愛...動力火車</span>
+        <span className="text-sm font-bold truncate">{artist.name}</span>
       </div>
       <div className="absolute right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
         <button className="bg-[#1ed760] rounded-full p-3 shadow-lg">
@@ -19,4 +23,4 @@ function RecentlyPlayedItem() {
   );
 }
 
-export default RecentlyPlayedItem;
+export default TopArtistsItem;
