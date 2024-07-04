@@ -88,4 +88,8 @@ export class SpotifyService implements ISpotifyService {
   async getNewReleases(): Promise<any> {
     return this.spotifyRepository.getNewReleases();
   }
+
+  async getMyTopArtists(): Promise<any>{
+    return this.spotifyRepository.getMyTopArtists();
+  }
 }

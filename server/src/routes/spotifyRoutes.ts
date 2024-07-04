@@ -33,4 +33,10 @@ spotifyRouter.get(
   "/getNewReleases",
   spotifyController.getNewReleases.bind(spotifyController)
 );
+
+spotifyRouter.get(
+  "/getMyTopArtists",
+  spotifyController.getMyTopArtists.bind(spotifyController)
+);
+
 export default spotifyRouter;

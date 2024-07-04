@@ -133,4 +133,18 @@ export class SpotifyController {
       data: extractedData,
     });
   });
+
+  public getMyTopArtists = asyncHandler(async (req: Request, res: Response) => {
+    const data = await this.spotifyService.getMyTopArtists();
+    const extractedData = data.body.items.map(
+      (item: { name: string; images: { url: string }[] }) => ({
+        name: item.name,
+        imageUrl: item.images[1].url,
+      })
+    );
+    res.json({
+      success: true,
+      extractedData,
+    });
+  });
 }

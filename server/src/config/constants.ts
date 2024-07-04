@@ -8,4 +8,5 @@ export const SPOTIFY_SCOPE = [
   "user-read-email",
   "user-read-recently-played",
   "user-read-currently-playing",
+  "user-top-read"
 ];

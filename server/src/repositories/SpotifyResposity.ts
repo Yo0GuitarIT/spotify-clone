@@ -53,4 +53,8 @@ export class SpotifyRepository implements ISpotifyReposity {
       country: "TW",
     });
   }
+
+  public getMyTopArtists(): Promise<any>{
+    return this.spotifyWebApi.getMyTopArtists();
+  }
 }
