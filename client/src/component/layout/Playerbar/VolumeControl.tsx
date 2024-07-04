@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { VolumeIcon } from "../../Icons";
+import { VolumeIcon } from "../../common/Icons";
 
 function VolumeControl() {
   const [volume, setVolume] = useState(50);

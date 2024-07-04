@@ -1,4 +1,4 @@
-import { IconProps } from "../types/types";
+import { IconProps } from "../../types/types";
 
 export const HomeIcon: React.FC<IconProps> = ({ className = "size-6" }) => {
   return (

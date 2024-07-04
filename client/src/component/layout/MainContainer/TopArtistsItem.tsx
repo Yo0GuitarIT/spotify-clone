@@ -1,4 +1,4 @@
-import { PlayIcon } from "../../Icons";
+import { PlayIcon } from "../../common/Icons";
 
 interface TopArtitstsItemProps {
   artist: {

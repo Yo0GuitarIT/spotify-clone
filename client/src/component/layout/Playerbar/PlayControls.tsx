@@ -1,4 +1,4 @@
-import { PreviousIcon, PlayIcon, NextIcon } from "../../Icons";
+import { PreviousIcon, PlayIcon, NextIcon } from "../../common/Icons";
 
 function Playcontrols() {
   return (

@@ -1,7 +1,4 @@
-import { PlayIcon } from "../../Icons";
-
-
-
+import { PlayIcon } from "../../common/Icons";
 
 function PersonalizedCard({ item }: any) {
   const imageUrl = item.albumCoverUrl || item.imageUrl;
@@ -22,9 +19,7 @@ function PersonalizedCard({ item }: any) {
       </div>
       <div className="mt-4 text-left flex-grow">
         <h3 className="font-bold text-base line-clamp-1">{item.name}</h3>
-        <p className="text-sm text-gray-400 mt-1 line-clamp-2">
-       { subtitle}
-        </p>
+        <p className="text-sm text-gray-400 mt-1 line-clamp-2">{subtitle}</p>
       </div>
     </button>
   );
