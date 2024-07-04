@@ -1,13 +1,18 @@
 import { PlayIcon } from "../../Icons";
-import { PersonalizedCardProps } from "../../../types/types";
 
-function PersonalizedCard({ release }: PersonalizedCardProps) {
+
+
+
+function PersonalizedCard({ item }: any) {
+  const imageUrl = item.albumCoverUrl || item.imageUrl;
+  const subtitle = item.artist || item.description;
+
   return (
     <button className="group relative flex flex-col h-full">
       <div className="relative w-full pt-[100%] rounded-lg overflow-hidden">
         <img
-          src={release.albumCoverUrl}
-          alt={release.name}
+          src={imageUrl}
+          alt={item.name}
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black bg-opacity-10"></div>
@@ -16,9 +21,9 @@ function PersonalizedCard({ release }: PersonalizedCardProps) {
         </div>
       </div>
       <div className="mt-4 text-left flex-grow">
-        <h3 className="font-bold text-base line-clamp-1">{release.name}</h3>
+        <h3 className="font-bold text-base line-clamp-1">{item.name}</h3>
         <p className="text-sm text-gray-400 mt-1 line-clamp-2">
-          {release.artist}
+       { subtitle}
         </p>
       </div>
     </button>

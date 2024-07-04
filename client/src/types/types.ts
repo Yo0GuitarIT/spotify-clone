@@ -8,12 +8,3 @@ export interface IconProps {
   className?: string;
 }
 
-export interface NewRelease {
-  name: string;
-  artist: string;
-  albumCoverUrl: string;
-}
-
-export interface PersonalizedCardProps {
-  release: NewRelease;
-}

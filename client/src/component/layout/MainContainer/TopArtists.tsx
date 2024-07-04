@@ -1,5 +1,5 @@
 import TopArtistsItem from "./TopArtistsItem";
-import { useMyTopArtitsts } from "../../../hooks/useMyTopArtist";
+import { useMyTopArtitsts } from "../../../hooks/useMyTopArtists";
 
 function TopArtists() {
   const { myTopArtists, isLoading, error } = useMyTopArtitsts();

@@ -1,4 +1,4 @@
-import PersionalizedSection from "./PersionalizedSection";
+import PersonalizedSection from "./PersionalizedSection";
 import TopArtists from "./TopArtists";
 import Navbar from "../Navbar";
 
@@ -8,7 +8,7 @@ function MainContainer() {
       <Navbar />
       <div className="flex-1 max-w-[1955px] px-6 flex flex-col gap-6 overflow-y-auto custom-scrollbar">
         <TopArtists />
-        <PersionalizedSection />
+        <PersonalizedSection />
       </div>
     </div>
   );

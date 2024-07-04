@@ -117,7 +117,25 @@ export const getMyTopArtists = async () => {
     }
     return await response.json();
   } catch (error) {
-    console.error("Error get Be Releases", error);
+    console.error("Error get New Releases", error);
+    throw error;
+  }
+};
+
+export const getFeaturedPlaylists = async () => {
+  try {
+    const response = await fetch("api/spotify/getFeaturedPlaylists", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`Get FeaturePlaylists Failed: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error get Playlists", error);
     throw error;
   }
 };

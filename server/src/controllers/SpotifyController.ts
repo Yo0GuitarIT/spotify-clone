@@ -158,7 +158,7 @@ export class SpotifyController {
           images: { url: any }[];
         }) => ({
           name: playlist.name,
-          description: playlist.description,
+          description: this.cleanDescription(playlist.description),
           imageUrl: playlist.images[0]?.url || null,
         })
       );
@@ -168,4 +168,13 @@ export class SpotifyController {
       });
     }
   );
+
+  private cleanDescription(description: string): string {
+    let cleanedDescription = description.split("<a")[0];
+    cleanedDescription = cleanedDescription.split("Cover:")[0];
+    cleanedDescription = cleanedDescription.replace(/<[^>]*>/g, "");
+    cleanedDescription = cleanedDescription.replace(/spotify:\S+/g, "");
+    cleanedDescription = cleanedDescription.replace(/\s+/g, " ").trim();
+    return cleanedDescription;
+  }
 }
