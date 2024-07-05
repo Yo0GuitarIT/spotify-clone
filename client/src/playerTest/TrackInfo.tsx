@@ -7,6 +7,13 @@ function TrackInfo({ playbackState }: TrackInfoProps) {
 
   return (
     <div>
+       {currentTrack && (
+        <img 
+          src={currentTrack.album.images[0].url} 
+          alt={`${currentTrack.album.name} cover`} 
+          style={{ width: '100px', height: '100px', marginRight: '20px' }}
+        />
+      )}
       <h2>
         {currentTrack
           ? `Now Playing: ${currentTrack.name}`
