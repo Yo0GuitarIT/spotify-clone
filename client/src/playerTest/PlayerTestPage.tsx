@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import WebPlayBack from "./WebPlayBack";
 import { getAccessToken } from "../api/spotifyApi";
+import { WebPlayBack } from "./WebPlayBack";
 
 function PlayerTestPage() {
   const [token, setToken] = useState<string>("");
