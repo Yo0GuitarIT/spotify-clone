@@ -1,5 +1,5 @@
 import SideBar from "../component/layout/SideBar/SideBar";
-import Playerbar from "../component/layout/PlayerBar/PlayerBar";
+import PlayerBar from "../component/layout/PlayerBar/PlayerBar";
 import MainContainer from "../component/layout/MainContainer/MainContainer";
 
 function HomePage() {
@@ -10,7 +10,7 @@ function HomePage() {
         <MainContainer />
       </div>
 
-      <Playerbar />
+      <PlayerBar />
     </main>
   );
 }

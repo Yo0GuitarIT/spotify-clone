@@ -1,7 +1,6 @@
 import "dotenv/config";
 
-export const { PORT, SECRET_KEY, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } =
-  process.env;
+export const { PORT, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } = process.env;
 
 export const SPOTIFY_SCOPE = [
   "user-read-private",
