@@ -153,17 +153,19 @@ export class SpotifyController {
 
   public getMyTopTracks = asyncHandler(async (req: Request, res: Response) => {
     const data = await this.spotifyService.getMyTopTracks();
-    const extractedData = data.body.items.map(
-      (item: {
-        name: any;
-        artists: any[];
-        album: { images: { url: any }[] };
-      }) => ({
-        songName: item.name,
-        artistName: item.artists.map((artist: any) => artist.name).join(", "),
-        albumCoverUrl: item.album.images[0]?.url || "",
-      })
-    );
+    const extractedData = data.body.items
+      .slice(0, 16)
+      .map(
+        (item: {
+          name: any;
+          artists: any[];
+          album: { images: { url: any }[] };
+        }) => ({
+          songName: item.name,
+          artistName: item.artists.map((artist: any) => artist.name).join(", "),
+          albumCoverUrl: item.album.images[0]?.url || "",
+        })
+      );
     res.json({
       success: true,
       data: extractedData,
