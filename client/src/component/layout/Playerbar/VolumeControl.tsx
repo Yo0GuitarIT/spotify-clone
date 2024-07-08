@@ -1,8 +1,14 @@
-import { useState } from "react";
+import { usePlayer } from "../../../hooks/usePlayer";
 import { VolumeIcon } from "../../common/Icons";
 
 function VolumeControl() {
-  const [volume, setVolume] = useState(50);
+  const { volume, setVolume } = usePlayer();
+
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newVolume = Number(e.target.value);
+    setVolume(newVolume);
+  };
+
   return (
     <div className="flex-1 flex items-center justify-end">
       <div className="flex items-center space-x-2">
@@ -13,9 +19,7 @@ function VolumeControl() {
             min="0"
             max="100"
             value={volume}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setVolume(Number(e.target.value))
-            }
+            onChange={handleVolumeChange}
             className="w-full h-1 bg-[#535353] rounded-full appearance-none cursor-pointer
            [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3
            [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:cursor-pointer

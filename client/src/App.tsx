@@ -1,13 +1,16 @@
-import { AuthProvider } from "./contexts/AuthContext";
 import { BrowserRouter } from "react-router-dom";
+import AuthProvider from "./contexts/AuthContext";
+import PlayerProvider from "./contexts/PlayerContext";
 import AppRoutes from "./component/AppRoutes";
 
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <AppRoutes />
-      </BrowserRouter>
+      <PlayerProvider>
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
+      </PlayerProvider>
     </AuthProvider>
   );
 }

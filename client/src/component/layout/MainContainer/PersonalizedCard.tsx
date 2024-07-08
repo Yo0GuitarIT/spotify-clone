@@ -6,7 +6,6 @@ interface PersonalizedCardProps {
 }
 
 function PersonalizedCard({ item, type }: PersonalizedCardProps) {
-  console.log(item);
   const imageUrl = item.albumCoverUrl;
   const artistName = item.artistName;
   const title = (type === 'track' ? item.songName : item.albumName);

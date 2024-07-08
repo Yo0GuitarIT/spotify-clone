@@ -17,6 +17,23 @@ export interface AuthContextType {
   verifyAuthStatus: () => Promise<void>;
 }
 
+export interface PlayerContextType {
+  token: string | null;
+  isLoading: boolean;
+  error: string | null;
+  player: Spotify.Player | null;
+  volume: number;
+  playbackState: Spotify.PlaybackState | null;
+  deviceId: string | null;
+  isPlaying: boolean;
+  currentTrack: Spotify.Track | null;
+  play: () => Promise<void>;
+  pause: () => Promise<void>;
+  nextTrack: () => Promise<void>;
+  previousTrack: () => Promise<void>;
+  setVolume: (volume: number) => Promise<void>;
+}
+
 export namespace SpotifyProps {
   export interface Player {
     pause: () => void;
