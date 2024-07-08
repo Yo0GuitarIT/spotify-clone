@@ -7,26 +7,14 @@ import {
 } from "react-spotify-web-playback-sdk";
 import TrackInfo from "./TrackInfo";
 import PlaybackControls from "./PlaybackControls";
+import { connectToSpotify } from "../../utils/spotifyUtils";
+
 
 function SpotifyPlayer({ token }: { token: string }) {
   const webPlaybackSDKReady = useWebPlaybackSDKReady();
   const player = useSpotifyPlayer();
   const playbackState = usePlaybackState();
   const device = usePlayerDevice();
-
-  const connectToSpotify = (token: string, deviceId: string) => {
-    fetch("https://api.spotify.com/v1/me/player", {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        device_ids: [deviceId],
-        play: false,
-      }),
-    }).catch((error) => console.error("Error connecting to player:", error));
-  };
 
   useEffect(() => {
     if (webPlaybackSDKReady && device?.device_id) {

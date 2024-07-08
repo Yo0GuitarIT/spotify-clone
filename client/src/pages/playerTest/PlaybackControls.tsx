@@ -1,17 +1,15 @@
+import { SpotifyProps } from "../../types/types";
+
 interface PlaybackControlsProps {
-  player: Spotify.Player;
-  playbackState: Spotify.PlaybackState;
+  player: SpotifyProps.Player;
+  playbackState: SpotifyProps.PlaybackState;
 }
 
 function PlaybackControls({ player, playbackState }: PlaybackControlsProps) {
   const isPlaying = !playbackState.paused;
 
   const togglePlay = () => {
-    if (isPlaying) {
-      player.pause();
-    } else {
-      player.resume();
-    }
+    isPlaying ? player.pause() : player.resume();
   };
 
   return <button onClick={togglePlay}>{isPlaying ? "Pause" : "Play"}</button>;

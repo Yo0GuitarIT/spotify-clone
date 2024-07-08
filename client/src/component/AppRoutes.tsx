@@ -4,7 +4,7 @@ import { useAuth } from "../hooks/useAuth";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import AuthCallbackPage from "../pages/AuthCallbackPage";
-import PlayerTestPage from "../playerTest/PlayerTestPage";
+import PlayerTestPage from "../pages/playerTest/PlayerTestPage";
 
 function AppRoutes() {
   const { isAuthenticated, isLoading } = useAuth();

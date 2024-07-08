@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAccessToken } from "../api/spotifyApi";
+import { getAccessToken } from "../../api/spotifyApi";
 import { WebPlayBack } from "./WebPlayBack";
 
 function PlayerTestPage() {
@@ -18,7 +18,9 @@ function PlayerTestPage() {
           throw new Error("Failed to get access token");
         }
       } catch (err) {
-        setError(err instanceof Error ? err.message : "An unknown error occurred");
+        setError(
+          err instanceof Error ? err.message : "An unknown error occurred"
+        );
       } finally {
         setIsLoading(false);
       }

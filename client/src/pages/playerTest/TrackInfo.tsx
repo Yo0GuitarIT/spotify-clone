@@ -1,5 +1,8 @@
+import { SpotifyProps } from "../../types/types";
+
+
 interface TrackInfoProps {
-  playbackState: Spotify.PlaybackState;
+  playbackState: SpotifyProps.PlaybackState;
 }
 
 function TrackInfo({ playbackState }: TrackInfoProps) {
