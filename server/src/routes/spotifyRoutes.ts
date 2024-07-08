@@ -45,8 +45,8 @@ spotifyRouter.get(
 );
 
 spotifyRouter.get(
-  "/getFeaturedPlaylists",
-  spotifyController.getFeaturedPlaylists.bind(spotifyController)
+  "/getMyTopTracks",
+  spotifyController.getMyTopTracks.bind(spotifyController)
 );
 
 export default spotifyRouter;

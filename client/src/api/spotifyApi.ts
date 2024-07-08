@@ -122,9 +122,9 @@ export const getMyTopArtists = async () => {
   }
 };
 
-export const getFeaturedPlaylists = async () => {
+export const getMyTopTracks = async () => {
   try {
-    const response = await fetch("api/spotify/getFeaturedPlaylists", {
+    const response = await fetch("api/spotify/getMyTopTracks", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

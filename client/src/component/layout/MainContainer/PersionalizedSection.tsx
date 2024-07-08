@@ -1,29 +1,18 @@
 import PersonalizedSectionItem from "./PersonalizedSectionItem";
+import { useMyTopTracks } from "../../../hooks/useMyTopTracks";
 import { useNewReleases } from "../../../hooks/useNewReleases";
-import { useFeaturedPlaylists } from "../../../hooks/useFeaturedPlaylists";
 
 function PersonalizedSection() {
-  const {
-    newReleases,
-    isLoading: isLoadingNewReleases,
-    error: newReleasesError,
-  } = useNewReleases();
-  const {
-    featuredPlaylists,
-    isLoading: isLoadingPlaylists,
-    error: playlistsError,
-  } = useFeaturedPlaylists();
+  const { MyTopTracks, isLoading, error } = useMyTopTracks();
+  const { newReleases } = useNewReleases();
 
-  if (isLoadingNewReleases || isLoadingPlaylists) return <div>Loading...</div>;
-  if (newReleasesError || playlistsError) return <div>Error loading data</div>;
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading data</div>;
 
   return (
     <>
-      <PersonalizedSectionItem title="New Releases" items={newReleases} />
-      <PersonalizedSectionItem
-        title="Featured Playlists"
-        items={featuredPlaylists}
-      />
+      <PersonalizedSectionItem title="My Top Tracks" items={MyTopTracks} />
+      <PersonalizedSectionItem title="New Release" items={newReleases} />
     </>
   );
 }

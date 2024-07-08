@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { getFeaturedPlaylists } from "../api/spotifyApi";
+import { getMyTopTracks } from "../api/spotifyApi";
 
-export const useFeaturedPlaylists = () => {
-  const [featuredPlaylists, setFeaturedPlaylists] = useState([]);
+export const useMyTopTracks = () => {
+  const [MyTopTracks, setMyTopTracks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -10,9 +10,9 @@ export const useFeaturedPlaylists = () => {
     const fetchFeaturePlaylists = async () => {
       try {
         setIsLoading(true);
-        const response = await getFeaturedPlaylists();
+        const response = await getMyTopTracks();
         if (response.success) {
-          setFeaturedPlaylists(response.data);
+          setMyTopTracks(response.data);
         } else {
           setError("Fail to fetch my artists");
         }
@@ -25,5 +25,5 @@ export const useFeaturedPlaylists = () => {
     fetchFeaturePlaylists();
   }, []);
 
-  return { featuredPlaylists, isLoading, error };
+  return { MyTopTracks, isLoading, error };
 };

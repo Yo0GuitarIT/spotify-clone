@@ -156,33 +156,22 @@ export class SpotifyController {
     });
   });
 
-  public getFeaturedPlaylists = asyncHandler(
-    async (req: Request, res: Response) => {
-      const data = await this.spotifyService.getFeaturedPlaylists();
-      const extractedData = data.body.playlists.items.map(
-        (playlist: {
-          name: any;
-          description: any;
-          images: { url: any }[];
-        }) => ({
-          name: playlist.name,
-          description: this.cleanDescription(playlist.description),
-          imageUrl: playlist.images[0]?.url || null,
-        })
-      );
-      res.json({
-        success: true,
-        data: extractedData,
-      });
-    }
-  );
-
-  private cleanDescription(description: string): string {
-    let cleanedDescription = description.split("<a")[0];
-    cleanedDescription = cleanedDescription.split("Cover:")[0];
-    cleanedDescription = cleanedDescription.replace(/<[^>]*>/g, "");
-    cleanedDescription = cleanedDescription.replace(/spotify:\S+/g, "");
-    cleanedDescription = cleanedDescription.replace(/\s+/g, " ").trim();
-    return cleanedDescription;
-  }
+  public getMyTopTracks = asyncHandler(async (req: Request, res: Response) => {
+    const data = await this.spotifyService.getMyTopTracks();
+    const extractedData = data.body.items.map(
+      (item: {
+        name: any;
+        artists: any[];
+        album: { images: { url: any }[] };
+      }) => ({
+        songName: item.name,
+        artistName: item.artists.map((artist: any) => artist.name).join(", "),
+        albumCoverUrl: item.album.images[0]?.url || "",
+      })
+    );
+    res.json({
+      success: true,
+      data: extractedData,
+    });
+  });
 }

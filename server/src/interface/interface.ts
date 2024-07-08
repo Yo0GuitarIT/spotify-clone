@@ -10,7 +10,7 @@ export interface ISpotifyReposity {
   getMyRecentlyPlayedTracks(): Promise<any>;
   getNewReleases(): Promise<any>;
   getMyTopArtists(): Promise<any>;
-  getFeaturedPlaylists(): Promise<any>;
+  getMyTopTracks(): Promise<any>;
 }
 
 export interface ISpotifyService {
@@ -23,5 +23,5 @@ export interface ISpotifyService {
   getMyRecentlyPlayedTracks(): Promise<any>;
   getNewReleases(): Promise<any>;
   getMyTopArtists(): Promise<any>;
-  getFeaturedPlaylists(): Promise<any>;
+  getMyTopTracks(): Promise<any>;
 }
