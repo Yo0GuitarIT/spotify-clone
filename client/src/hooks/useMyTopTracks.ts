@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { getMyTopTracks } from "../api/spotifyApi";
 
 export const useMyTopTracks = () => {
-  const [MyTopTracks, setMyTopTracks] = useState([]);
+  const [myTopTracks, setMyTopTracks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchFeaturePlaylists = async () => {
+    const fetchMyTopTracks = async () => {
       try {
         setIsLoading(true);
         const response = await getMyTopTracks();
@@ -22,8 +22,8 @@ export const useMyTopTracks = () => {
         setIsLoading(false);
       }
     };
-    fetchFeaturePlaylists();
+    fetchMyTopTracks();
   }, []);
 
-  return { MyTopTracks, isLoading, error };
+  return { myTopTracks, isLoading, error };
 };

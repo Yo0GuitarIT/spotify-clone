@@ -131,7 +131,7 @@ export const getMyTopTracks = async () => {
       },
     });
     if (!response.ok) {
-      throw new Error(`Get FeaturePlaylists Failed: ${response.statusText}`);
+      throw new Error(`Get My Top Tracks  Failed: ${response.statusText}`);
     }
     return await response.json();
   } catch (error) {

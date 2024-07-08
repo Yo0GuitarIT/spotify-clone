@@ -3,7 +3,7 @@ import { useMyTopTracks } from "../../../hooks/useMyTopTracks";
 import { useNewReleases } from "../../../hooks/useNewReleases";
 
 function PersonalizedSection() {
-  const { MyTopTracks, isLoading: isLoadingTracks, error: tracksError } = useMyTopTracks();
+  const { myTopTracks, isLoading: isLoadingTracks, error: tracksError } = useMyTopTracks();
   const { newReleases, isLoading: isLoadingReleases, error: releasesError } = useNewReleases();
 
   if (isLoadingTracks || isLoadingReleases) return <div>Loading...</div>;
@@ -11,7 +11,7 @@ function PersonalizedSection() {
 
   return (
     <>
-      <PersonalizedSectionItem title="My Top Tracks" items={MyTopTracks}  type="track"/>
+      <PersonalizedSectionItem title="My Top Tracks" items={myTopTracks}  type="track"/>
       <PersonalizedSectionItem title="New Release" items={newReleases} type="album" />
     </>
   );
