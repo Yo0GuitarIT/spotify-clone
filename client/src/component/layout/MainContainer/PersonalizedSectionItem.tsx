@@ -3,11 +3,14 @@ import PersonalizedCard from "./PersonalizedCard";
 interface PersionalizedSectionItemProps {
   title: string;
   items: any[];
+  type: 'track' | 'album';
 }
+
 
 function PersionalizedSectionItem({
   title,
   items,
+  type,
 }: PersionalizedSectionItemProps) {
   return (
     <div>
@@ -16,7 +19,7 @@ function PersionalizedSectionItem({
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
         {items.map((item, index) => (
-          <PersonalizedCard key={index} item={item} />
+          <PersonalizedCard key={index} item={item} type={type} />
         ))}
       </div>
     </div>

@@ -1,17 +1,21 @@
 import { PlayIcon } from "../../common/Icons";
 
-function PersonalizedCard({ item }: any) {
- 
+interface PersonalizedCardProps {
+  item: any;
+  type: "track" | "album";
+}
 
+function PersonalizedCard({ item, type }: PersonalizedCardProps) {
+  console.log(item);
   const imageUrl = item.albumCoverUrl;
   const artistName = item.artistName;
-  const songName = item.songName;
+  const title = (type === 'track' ? item.songName : item.albumName);
 
   return (
     <button className="group relative flex flex-col h-full">
       <div className="relative w-full pt-[100%] rounded-lg overflow-hidden">
         <img
-          src= {imageUrl}
+          src={imageUrl}
           alt={artistName}
           className="absolute inset-0 w-full h-full object-cover"
         />
@@ -21,7 +25,7 @@ function PersonalizedCard({ item }: any) {
         </div>
       </div>
       <div className="mt-4 text-left flex-grow">
-        <h3 className="font-bold text-base line-clamp-1">{songName}</h3>
+        <h3 className="font-bold text-base line-clamp-1">{title}</h3>
         <p className="text-sm text-gray-400 mt-1 line-clamp-2">{artistName}</p>
       </div>
     </button>
