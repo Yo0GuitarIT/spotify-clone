@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getMyTopArtists } from "../api/spotifyApi";
+import { getMyTopArtists } from "../services/spotifyApi";
 
 export const useMyTopArtitsts = () => {
   const [myTopArtists, setMyTopArtitsts] = useState([]);

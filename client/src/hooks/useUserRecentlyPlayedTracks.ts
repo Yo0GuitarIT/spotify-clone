@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getUserRecentlyPlayedTracks } from "../api/spotifyApi";
+import { getUserRecentlyPlayedTracks } from "../services/spotifyApi";
 
 interface Track {
   artist: string;

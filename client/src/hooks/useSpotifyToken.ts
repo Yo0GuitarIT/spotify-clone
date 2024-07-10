@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAccessToken } from "../api/spotifyApi";
+import { getAccessToken } from "../services/spotifyApi";
 
 export const useSpotifyToken = () => {
   const [token, setToken] = useState<string>("");

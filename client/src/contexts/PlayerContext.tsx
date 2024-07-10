@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
 import { useSpotifyToken } from "../hooks/useSpotifyToken";
-import { connectToSpotify } from "../utils/spotifyUtils";
+import { connectToSpotify } from "../services/spotifyUtils";
 import { PlayerContextType } from "../types/types";
 
 export const PlayerContext = createContext<PlayerContextType | undefined>(
@@ -8,7 +8,8 @@ export const PlayerContext = createContext<PlayerContextType | undefined>(
 );
 
 function PlayerProvider({ children }: { children: ReactNode }) {
-  const { token, isLoading, error } = useSpotifyToken();
+  const { token, isLoading, error: tokenError } = useSpotifyToken();
+
   const [player, setPlayer] = useState<Spotify.Player | null>(null);
   const [playbackState, setPlaybackState] =
     useState<Spotify.PlaybackState | null>(null);
@@ -18,6 +19,12 @@ function PlayerProvider({ children }: { children: ReactNode }) {
   const [volume, setVolume] = useState(85);
   const [isMuted, setIsMuted] = useState(false);
   const [previousVolume, setPreviousVolume] = useState(85);
+  const [playerError, setPlayerError] = useState<Error | null>(null);
+
+  const handlePlayerError = (error: Error) => {
+    console.error(error);
+    setPlayerError(error);
+  };
 
   useEffect(() => {
     if (!token) return;
@@ -62,6 +69,20 @@ function PlayerProvider({ children }: { children: ReactNode }) {
         console.error("Failed to validate Spotify account", message);
       });
 
+      player.addListener("initialization_error", ({ message }) => {
+        handlePlayerError(new Error(`Failed to initialize: ${message}`));
+      });
+
+      player.addListener("authentication_error", ({ message }) => {
+        handlePlayerError(new Error(`Failed to authenticate: ${message}`));
+      });
+
+      player.addListener("account_error", ({ message }) => {
+        handlePlayerError(
+          new Error(`Failed to validate Spotify account: ${message}`)
+        );
+      });
+
       player.connect().then((success) => {
         if (success) {
           console.log(
@@ -81,7 +102,9 @@ function PlayerProvider({ children }: { children: ReactNode }) {
       await player?.resume();
       setIsPlaying(true);
     } catch (error) {
-      console.error("Failed to play:", error);
+      handlePlayerError(
+        error instanceof Error ? error : new Error("Failed to play")
+      );
     }
   };
 
@@ -90,27 +113,33 @@ function PlayerProvider({ children }: { children: ReactNode }) {
       await player?.pause();
       setIsPlaying(false);
     } catch (error) {
-      console.error("Failed to pause:", error);
+      handlePlayerError(
+        error instanceof Error ? error : new Error("Failed to pause")
+      );
     }
   };
 
   const nextTrack = async () => {
     try {
       await player?.nextTrack();
-      // 可能需要更新當前曲目信息
+      // 可能需要更新當前曲目資料
       updatePlaybackState();
     } catch (error) {
-      console.error("Failed to skip to next track:", error);
+      handlePlayerError(
+        error instanceof Error ? error : new Error("Failed to next track")
+      );
     }
   };
 
   const previousTrack = async () => {
     try {
       await player?.previousTrack();
-      // 可能需要更新當前曲目信息
+      // 可能需要更新當前曲目資料
       updatePlaybackState();
     } catch (error) {
-      console.error("Failed to go to previous track:", error);
+      handlePlayerError(
+        error instanceof Error ? error : new Error("Failed to prevoius track")
+      );
     }
   };
 
@@ -133,7 +162,9 @@ function PlayerProvider({ children }: { children: ReactNode }) {
         setIsMuted(true);
       }
     } catch (error) {
-      console.error("Failed to set volume:", error);
+      handlePlayerError(
+        error instanceof Error ? error : new Error("Failed to set volume")
+      );
     }
   };
 
@@ -150,31 +181,34 @@ function PlayerProvider({ children }: { children: ReactNode }) {
         setIsMuted(true);
       }
     } catch (error) {
-      console.error("Fail to toggle mute:", error);
+      handlePlayerError(
+        error instanceof Error ? error : new Error("Failed to toggle mute")
+      );
     }
   };
 
+  const contextValue: PlayerContextType = {
+    token,
+    isLoading,
+    tokenError,
+    playerError,
+    player,
+    playbackState,
+    deviceId,
+    isPlaying,
+    currentTrack,
+    volume,
+    isMuted,
+    play,
+    pause,
+    nextTrack,
+    previousTrack,
+    setVolume: handleVolumeChange,
+    toggleMute,
+  };
+
   return (
-    <PlayerContext.Provider
-      value={{
-        token,
-        isLoading,
-        error,
-        player,
-        playbackState,
-        deviceId,
-        isPlaying,
-        currentTrack,
-        volume,
-        isMuted,
-        play,
-        pause,
-        nextTrack,
-        previousTrack,
-        setVolume: handleVolumeChange,
-        toggleMute,
-      }}
-    >
+    <PlayerContext.Provider value={contextValue}>
       {children}
     </PlayerContext.Provider>
   );

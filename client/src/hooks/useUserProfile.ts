@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import { getUserProfile } from "../api/spotifyApi";
+import { getUserProfile } from "../services/spotifyApi";
 import { UserProfileType } from "../types/types";
-
 
 export const useUserProfile = () => {
   const [profile, setProfile] = useState<UserProfileType | null>(null);

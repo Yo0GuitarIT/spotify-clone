@@ -9,7 +9,7 @@ import {
   validLoginState,
   loginSpotify,
   logoutSpotify,
-} from "../api/spotifyApi";
+} from "../services/spotifyApi";
 import { ApiResponse, AuthContextType } from "../types/types";
 
 export const AuthContext = createContext<AuthContextType | undefined>(

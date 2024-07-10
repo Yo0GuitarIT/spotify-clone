@@ -20,7 +20,8 @@ export interface AuthContextType {
 export interface PlayerContextType {
   token: string | null;
   isLoading: boolean;
-  error: string | null;
+  tokenError: string | null;  
+  playerError: Error | null;  
   player: Spotify.Player | null;
   volume: number;
   playbackState: Spotify.PlaybackState | null;
