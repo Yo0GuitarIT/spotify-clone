@@ -4,7 +4,6 @@ import { useAuth } from "../hooks/useAuth";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import AuthCallbackPage from "../pages/AuthCallbackPage";
-import PlayerTestPage from "../pages/playerTest/PlayerTestPage";
 
 function AppRoutes() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -28,13 +27,6 @@ function AppRoutes() {
         element={isAuthenticated ? <Navigate to="/" /> : <LoginPage />}
       />
       <Route path="/auth-callback" element={<AuthCallbackPage />} />
-
-      <Route
-        path="/test"
-        element={
-          isAuthenticated ? <PlayerTestPage /> : <Navigate to="/login" />
-        }
-      />
     </Routes>
   );
 }
