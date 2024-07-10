@@ -1,12 +1,16 @@
-# Spotify Clone Project
+# Spotify Clone project
 
 ## Project Overview
-> This is a web application that replicates Spotify's functionality, aiming to provide a similar music streaming experience.  
-> The project serves as a platform for learning and showcasing full-stack development skills.
+
+> This is a web application that replicates Spotify's functionality,
+> aiming to provide a similar music streaming experience.  
+> The project serves as a platform for learning and showcasing full-stack
+> development skills.
 
 ### Current Status
 
-- Implemented basic playback functionality, including play/pause, next/previous track, and volume control.
+- Implemented basic playback functionality, including play/pause,
+  next/previous track, and volume control.
 - Integrated Spotify Web Playback SDK for audio playback.
 - Implemented user authentication and authorization flow.
 - Frontend built with React, backend using Node.js
@@ -20,6 +24,7 @@
 - Responsive design for desktop and mobile devices
 
 ### Tech Stack
+
 - Frontend: React, TypeScript, Tailwind CSS
 - Backend: Node.js, Express, TypeScript
 - Authentication: Spotify OAuth
@@ -30,8 +35,8 @@
 ## Planned Features
 
 - Playlist management
-- Search functionality
 - User profile pages
+- Search functionality
 - Social features (e.g., sharing playlists)
 - Recommendation system
 
@@ -43,14 +48,12 @@
 - Implement global error handling
 - Performance optimization (using useCallback, useMemo, etc.)
 
-
-### Add Testing
+## Add Testing
 
 - Implement frontend unit tests and integration tests
 - Add backend API tests
 
-
-### Prepare for GraphQL Migration
+## Prepare for GraphQL Migration
 
 - Design GraphQL schema
 - Implement resolvers in the backend

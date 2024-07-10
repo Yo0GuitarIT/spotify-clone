@@ -27,11 +27,13 @@ export interface PlayerContextType {
   deviceId: string | null;
   isPlaying: boolean;
   currentTrack: Spotify.Track | null;
+  isMuted: boolean
   play: () => Promise<void>;
   pause: () => Promise<void>;
   nextTrack: () => Promise<void>;
   previousTrack: () => Promise<void>;
   setVolume: (volume: number) => Promise<void>;
+  toggleMute: () => Promise<void>;
 }
 
 export namespace SpotifyProps {

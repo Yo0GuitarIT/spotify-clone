@@ -1,6 +1,6 @@
 import { IconProps } from "../../types/types";
 
-export const HomeIcon: React.FC<IconProps> = ({ className = "size-6" }) => {
+export function HomeIcon({ className = "size-6" }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -12,9 +12,9 @@ export const HomeIcon: React.FC<IconProps> = ({ className = "size-6" }) => {
       <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
     </svg>
   );
-};
+}
 
-export const SearchIcon: React.FC<IconProps> = ({ className = "size-6" }) => {
+export function SearchIcon({ className = "size-6" }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -29,9 +29,9 @@ export const SearchIcon: React.FC<IconProps> = ({ className = "size-6" }) => {
       />
     </svg>
   );
-};
+}
 
-export const PlusIcon: React.FC<IconProps> = ({ className = "size-6" }) => {
+export function PlusIcon({ className = "size-6" }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -46,11 +46,9 @@ export const PlusIcon: React.FC<IconProps> = ({ className = "size-6" }) => {
       />
     </svg>
   );
-};
+}
 
-export const ArrowRightIcon: React.FC<IconProps> = ({
-  className = "size-6",
-}) => {
+export function ArrowRightIcon({ className = "size-6" }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -65,9 +63,9 @@ export const ArrowRightIcon: React.FC<IconProps> = ({
       />
     </svg>
   );
-};
+}
 
-export const LibraryIcon: React.FC<IconProps> = ({ className = "size-6" }) => {
+export function LibraryIcon({ className = "size-6" }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -84,9 +82,9 @@ export const LibraryIcon: React.FC<IconProps> = ({ className = "size-6" }) => {
       />
     </svg>
   );
-};
+}
 
-export const LogoutIcon: React.FC<IconProps> = ({ className = "size-6" }) => {
+export function LogoutIcon({ className = "size-6" }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -103,9 +101,9 @@ export const LogoutIcon: React.FC<IconProps> = ({ className = "size-6" }) => {
       />
     </svg>
   );
-};
+}
 
-export const PlayIcon: React.FC<IconProps> = ({ className = "size-6" }) => {
+export function PlayIcon({ className = "size-6" }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -120,9 +118,9 @@ export const PlayIcon: React.FC<IconProps> = ({ className = "size-6" }) => {
       />
     </svg>
   );
-};
+}
 
-export const PauseIcon: React.FC<IconProps> = ({ className = "size-6" }) => {
+export function PauseIcon({ className = "size-6" }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -139,9 +137,9 @@ export const PauseIcon: React.FC<IconProps> = ({ className = "size-6" }) => {
       />
     </svg>
   );
-};
+}
 
-export const PreviousIcon: React.FC<IconProps> = ({ className = "size-6" }) => {
+export function PreviousIcon({ className = "size-6" }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -152,9 +150,9 @@ export const PreviousIcon: React.FC<IconProps> = ({ className = "size-6" }) => {
       <path d="M19.5 5.5v13a1 1 0 01-1.54.841l-10-6a1 1 0 010-1.682l10-6a1 1 0 011.54.841zm-14 0a1 1 0 012 0v13a1 1 0 11-2 0v-13z" />
     </svg>
   );
-};
+}
 
-export const NextIcon: React.FC<IconProps> = ({ className = "size-6" }) => {
+export function NextIcon({ className = "size-6" }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -165,9 +163,9 @@ export const NextIcon: React.FC<IconProps> = ({ className = "size-6" }) => {
       <path d="M4.5 5.5v13a1 1 0 001.54.841l10-6a1 1 0 000-1.682l-10-6A1 1 0 004.5 5.5zm14 0a1 1 0 012 0v13a1 1 0 11-2 0v-13z" />
     </svg>
   );
-};
+}
 
-export const VolumeIcon: React.FC<IconProps> = ({ className = "size-6" }) => {
+export function VolumeIcon({ className = "size-6" }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -184,4 +182,23 @@ export const VolumeIcon: React.FC<IconProps> = ({ className = "size-6" }) => {
       />
     </svg>
   );
-};
+}
+
+export function VolumeMuteIcon({ className = "size-6" }: IconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className={className}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M17.25 9.75 19.5 12m0 0 2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6 4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z"
+      />
+    </svg>
+  );
+}

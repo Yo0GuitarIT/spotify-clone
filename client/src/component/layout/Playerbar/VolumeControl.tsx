@@ -1,8 +1,8 @@
 import { usePlayer } from "../../../hooks/usePlayer";
-import { VolumeIcon } from "../../common/Icons";
+import { VolumeIcon, VolumeMuteIcon } from "../../common/Icons";
 
 function VolumeControl() {
-  const { volume, setVolume } = usePlayer();
+  const { volume, setVolume, isMuted, toggleMute } = usePlayer();
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = Number(e.target.value);
@@ -10,10 +10,16 @@ function VolumeControl() {
   };
 
   return (
-    <div className="flex-1 flex items-center justify-end">
+    <div className="flex items-center justify-end flex-1">
       <div className="flex items-center space-x-2">
-        <VolumeIcon className="size-6 text-[#b3b3b3] hover:text-white transition-colors" />
-        <div className="w-24 group mb-2">
+        <button onClick={toggleMute} className="focus:outline-none">
+          {isMuted || volume === 0 ? (
+            <VolumeMuteIcon className="text-[#a7a7a7] transition-colors size-6 hover:text-white" />
+          ) : (
+            <VolumeIcon className="text-[#a7a7a7] transition-colors size-6 hover:text-white" />
+          )}
+        </button>
+        <div className="w-24 mb-2 group">
           <input
             type="range"
             min="0"

@@ -16,6 +16,8 @@ function PlayerProvider({ children }: { children: ReactNode }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrack, setCurrentTrack] = useState<Spotify.Track | null>(null);
   const [volume, setVolume] = useState(85);
+  const [isMuted, setIsMuted] = useState(false);
+  const [previousVolume, setPreviousVolume] = useState(85);
 
   useEffect(() => {
     if (!token) return;
@@ -125,8 +127,30 @@ function PlayerProvider({ children }: { children: ReactNode }) {
     try {
       await player?.setVolume(newVolume / 100);
       setVolume(newVolume);
+      if (newVolume > 0 && isMuted) {
+        setIsMuted(false);
+      } else if (newVolume === 0 && !isMuted) {
+        setIsMuted(true);
+      }
     } catch (error) {
       console.error("Failed to set volume:", error);
+    }
+  };
+
+  const toggleMute = async () => {
+    try {
+      if (isMuted) {
+        await player?.setVolume(previousVolume / 100);
+        setVolume(previousVolume);
+        setIsMuted(false);
+      } else {
+        setPreviousVolume(volume);
+        await player?.setVolume(0);
+        setVolume(0);
+        setIsMuted(true);
+      }
+    } catch (error) {
+      console.error("Fail to toggle mute:", error);
     }
   };
 
@@ -142,11 +166,13 @@ function PlayerProvider({ children }: { children: ReactNode }) {
         isPlaying,
         currentTrack,
         volume,
+        isMuted,
         play,
         pause,
         nextTrack,
         previousTrack,
         setVolume: handleVolumeChange,
+        toggleMute,
       }}
     >
       {children}

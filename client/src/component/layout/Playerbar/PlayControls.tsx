@@ -18,28 +18,30 @@ function Playcontrols() {
   };
 
   return (
-    <div className="flex-1 flex items-center justify-center">
+    <div className="flex items-center justify-center flex-1">
       <button
-        className="size-8 flex items-center justify-center  hover:text-[#1DB954] transition-colors"
+        className="flex items-center justify-center size-8"
         onClick={previousTrack}
       >
-        <PreviousIcon className="size-6 text-gray-500" />
+        <PreviousIcon className="text-[#a7a7a7] size-6 hover:text-white" />
       </button>
       <button
-        className="size-12 bg-[#1DB954] rounded-full mx-4 flex items-center justify-center hover:scale-105 transition-transform"
+        className="relative flex items-center justify-center mx-4 bg-white rounded-full size-10 group"
         onClick={handlePlayPause}
       >
+        <div className="absolute inset-0 transition-transform duration-300 bg-white rounded-full group-hover:scale-105" />
         {isPlaying ? (
-          <PauseIcon className="size-6 text-black" />
+          <PauseIcon className="relative z-10 text-black size-6" />
         ) : (
-          <PlayIcon className="size-6 text-black" />
+          <PlayIcon className="relative z-10 text-black size-6" />
         )}
       </button>
+
       <button
-        className="size-8 flex items-center justify-center  hover:text-[#1DB954] transition-colors"
+        className="flex items-center justify-center size-8 "
         onClick={nextTrack}
       >
-        <NextIcon className="size-6 text-gray-500" />
+        <NextIcon className="text-[#a7a7a7] size-6 hover:text-white" />
       </button>
     </div>
   );

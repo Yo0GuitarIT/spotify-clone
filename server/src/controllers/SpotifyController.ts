@@ -19,7 +19,7 @@ export class SpotifyController {
     async (req: Request, res: Response<AuthorizationResponse>) => {
       const authUrl = this.spotifyService.createAuthUrl();
       res.json({ success: true, url: authUrl });
-    }
+    },
   );
 
   public logout = asyncHandler(async (req: Request, res: Response) => {
@@ -42,7 +42,7 @@ export class SpotifyController {
       const frontendUrl = new URL("http://localhost:5173/auth-callback");
       frontendUrl.searchParams.append(
         "login_success",
-        success ? "true" : "false"
+        success ? "true" : "false",
       );
 
       res.redirect(frontendUrl.toString());
@@ -52,7 +52,7 @@ export class SpotifyController {
       frontendUrl.searchParams.append("login_success", "false");
       frontendUrl.searchParams.append(
         "error",
-        "An error occurred during authentication"
+        "An error occurred during authentication",
       );
       res.redirect(frontendUrl.toString());
     }
@@ -71,7 +71,7 @@ export class SpotifyController {
       } else {
         res.json({ success: true, valid: false });
       }
-    }
+    },
   );
 
   public getAccessToken = asyncHandler(async (req: Request, res: Response) => {
@@ -112,14 +112,14 @@ export class SpotifyController {
             artist: item.track.artists[0].name,
             song: item.track.name,
             albumCoverUrl: item.track.album.images[2].url,
-          })
+          }),
         );
         res.json({
           success: true,
           data: extractedData,
         });
       }
-    }
+    },
   );
 
   public getNewReleases = asyncHandler(async (req: Request, res: Response) => {
@@ -143,7 +143,7 @@ export class SpotifyController {
       (item: { name: string; images: { url: string }[] }) => ({
         name: item.name,
         imageUrl: item.images[1].url,
-      })
+      }),
     );
     res.json({
       success: true,
@@ -164,7 +164,7 @@ export class SpotifyController {
           songName: item.name,
           artistName: item.artists.map((artist: any) => artist.name).join(", "),
           albumCoverUrl: item.album.images[0]?.url || "",
-        })
+        }),
       );
     res.json({
       success: true,
