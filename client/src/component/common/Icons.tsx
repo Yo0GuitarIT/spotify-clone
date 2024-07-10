@@ -1,4 +1,6 @@
-import { IconProps } from "../../types/types";
+interface IconProps {
+  className?: string;
+}
 
 export function HomeIcon({ className = "size-6" }: IconProps) {
   return (

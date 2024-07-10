@@ -1,29 +1,33 @@
 import { useState, useEffect } from "react";
 import { getUserProfile } from "../api/spotifyApi";
-
-interface UserProfileImage {
-  url: string;
-  height: number;
-  width: number;
-}
-
+import { UserProfileType } from "../types/types";
 
 
 export const useUserProfile = () => {
-  const [profile, setProfile] = useState<UserProfileImage | null>(null);
+  const [profile, setProfile] = useState<UserProfileType | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      const data = await getUserProfile();
-      if (data && data.imageUrl) {
-        setProfile(data.imageUrl);
-      } else {
-        throw new Error("Invalid profile data");
+      try {
+        setIsLoading(true);
+        const data = await getUserProfile();
+        if (data && data.imageUrl) {
+          setProfile({ imageUrl: data.imageUrl });
+        } else {
+          throw new Error("Invalid profile data");
+        }
+      } catch (err) {
+        setError(
+          err instanceof Error ? err : new Error("An unknown error occurred")
+        );
+      } finally {
+        setIsLoading(false);
       }
     };
-
     fetchUserProfile();
   }, []);
 
-  return { profile };
+  return { profile, isLoading, error };
 };

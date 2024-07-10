@@ -16,11 +16,15 @@ export const AuthContext = createContext<AuthContextType | undefined>(
   undefined
 );
 
-function AuthProvider({ children }: { children: ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+interface AuthProviderProps {
+  children: ReactNode;
+}
 
-  const verifyAuthStatus = useCallback(async () => {
+function AuthProvider({ children }: AuthProviderProps) {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const verifyAuthStatus = useCallback(async (): Promise<void> => {
     const storedLoginState = localStorage.getItem("login_success");
     if (!storedLoginState) {
       setIsAuthenticated(false);
@@ -43,7 +47,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     verifyAuthStatus();
   }, [verifyAuthStatus]);
 
-  const initateLogin = useCallback(async () => {
+  const initiateLogin = useCallback(async (): Promise<void> => {
     try {
       const loginResponse: ApiResponse = await loginSpotify();
       if (loginResponse.success && loginResponse.url) {
@@ -57,13 +61,13 @@ function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const handleCallback = useCallback((accessToken: string) => {
+  const handleCallback = useCallback((accessToken: string): void => {
     localStorage.setItem("login_success", accessToken);
     setIsAuthenticated(true);
     setIsLoading(false);
   }, []);
 
-  const logoutUser = useCallback(async () => {
+  const logoutUser = useCallback(async (): Promise<void> => {
     try {
       await logoutSpotify();
       localStorage.removeItem("login_success");
@@ -75,19 +79,17 @@ function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  const contextValue: AuthContextType = {
+    isAuthenticated,
+    isLoading,
+    initiateLogin,
+    handleCallback,
+    logoutUser,
+    verifyAuthStatus,
+  };
+
   return (
-    <AuthContext.Provider
-      value={{
-        isAuthenticated,
-        isLoading,
-        initateLogin,
-        handleCallback,
-        logoutUser,
-        verifyAuthStatus,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 }
 

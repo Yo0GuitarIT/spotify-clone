@@ -89,7 +89,7 @@ export class SpotifyController {
     } else {
       res.json({
         success: true,
-        imageUrl: data.body.images[0],
+        imageUrl: data.body.images[0].url,
         data: data,
       });
     }

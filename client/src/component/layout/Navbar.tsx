@@ -1,11 +1,12 @@
-import { useAuth } from "../../hooks/useAuth"; 
+import { useAuth } from "../../hooks/useAuth";
 import { useUserProfile } from "../../hooks/useUserProfile";
 import { LogoutIcon } from "../common/Icons";
 
 function Navbar() {
   const { logoutUser } = useAuth();
-  const { profile } = useUserProfile();
+  const { profile, isLoading, error } = useUserProfile();
 
+  console.log(profile);
   return (
     <header className="h-16 px-6 flex items-center justify-end max-w-[1955px]">
       <div className="flex items-center gap-2">
@@ -17,14 +18,22 @@ function Navbar() {
           <span className="truncate max-w-[100px]">登出</span>
         </button>
         <button className="flex items-center justify-center w-8 h-8 rounded-full bg-[#0A0A0A] hover:bg-[#282828] transition-colors duration-200 overflow-hidden">
-          {profile?.url ? (
+          {isLoading ? (
+            <div className="flex items-center justify-center w-full h-full text-xs text-white bg-gray-500">
+              ...
+            </div>
+          ) : error ? (
+            <div className="flex items-center justify-center w-full h-full text-xs text-white bg-red-500">
+              !
+            </div>
+          ) : profile?.imageUrl ? (
             <img
-              src={profile.url}
+              src={profile.imageUrl}
               alt="Profile"
-              className="w-full h-full object-cover rounded-full"
+              className="object-cover w-full h-full rounded-full"
             />
           ) : (
-            <div className="w-full h-full bg-gray-500 flex items-center justify-center text-white text-xs">
+            <div className="flex items-center justify-center w-full h-full text-xs text-white bg-gray-500">
               ?
             </div>
           )}

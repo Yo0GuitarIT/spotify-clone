@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth"; 
+import { useAuth } from "../hooks/useAuth";
 
 function AuthCallbackPage() {
   const { handleCallback } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const processAuthCallback = () => {
+  const processAuthCallback = (): void => {
     const params = new URLSearchParams(location.search);
     const loginState = params.get("login_success");
 
@@ -20,7 +20,7 @@ function AuthCallbackPage() {
       navigate("/login");
     }
   };
-  
+
   useEffect(() => {
     processAuthCallback();
   }, [navigate, location, handleCallback]);
