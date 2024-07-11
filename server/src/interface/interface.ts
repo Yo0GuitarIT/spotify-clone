@@ -15,7 +15,6 @@ export interface IAuthRepository extends IBaseSpotifyRepository {
 export interface IDataRepository extends IBaseSpotifyRepository {
   getUserProfile(): Promise<any>;
   getMyRecentlyPlayedTracks(): Promise<any>;
-  getNewReleases(): Promise<any>;
   getMyTopArtists(): Promise<any>;
   getMyTopTracks(): Promise<any>;
 }
@@ -30,7 +29,6 @@ export interface IAuthService {
 export interface IDataService {
   getUserProfile(): Promise<any>;
   getMyRecentlyPlayedTracks(): Promise<any>;
-  getNewReleases(): Promise<any>;
   getMyTopArtists(): Promise<any>;
   getMyTopTracks(): Promise<any>;
 }

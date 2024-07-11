@@ -13,14 +13,6 @@ export class DataRepository
     return this.spotifyWebApi.getMyRecentlyPlayedTracks({ limit: 20 });
   }
 
-  public getNewReleases(): Promise<any> {
-    return this.spotifyWebApi.getNewReleases({
-      limit: 8,
-      offset: 0,
-      country: "TW",
-    });
-  }
-
   public getMyTopArtists(): Promise<any> {
     return this.spotifyWebApi.getMyTopArtists();
   }

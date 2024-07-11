@@ -29,7 +29,6 @@ spotifyRouter.post("/validLoginState", authController.validLoginState);
 
 spotifyRouter.get("/getUserProfile", dataController.getUserProfile);
 spotifyRouter.get("/getMyRecentlyPlayedTracks",dataController.getMyRecentlyPlayedTracks);
-spotifyRouter.get("/getNewReleases", dataController.getNewReleases);
 spotifyRouter.get("/getMyTopArtists", dataController.getMyTopArtists);
 spotifyRouter.get("/getMyTopTracks", dataController.getMyTopTracks);
 

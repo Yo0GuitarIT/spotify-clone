@@ -1,9 +1,10 @@
 import SpotifyWebApi from "spotify-web-api-node";
-
 import { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from "../config/constants";
+import { IBaseSpotifyRepository } from "../interface/interface";
 
 export class SpotifyWebApiSingleton {
-  private static instance: SpotifyWebApi;
+  private static instance: SpotifyWebApi | null;
+
   private constructor() {}
 
   public static getInstance(): SpotifyWebApi {
@@ -18,8 +19,8 @@ export class SpotifyWebApiSingleton {
   }
 }
 
-export class BaseSpotifyRepository {
-  protected spotifyWebApi: SpotifyWebApi;
+export class BaseSpotifyRepository implements IBaseSpotifyRepository {
+  protected readonly spotifyWebApi: SpotifyWebApi;
 
   constructor() {
     this.spotifyWebApi = SpotifyWebApiSingleton.getInstance();

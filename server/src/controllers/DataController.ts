@@ -44,20 +44,6 @@ export class DataController {
     }
   );
 
-  public getNewReleases = asyncHandler(async (req: Request, res: Response) => {
-    const data = await this.spotifyService.getNewReleases();
-    const extractedData = data.body.albums.items.map((item: any) => ({
-      albumName: item.name,
-      albumCoverUrl: item.images[0]?.url,
-      artistName: item.artists.map((artist: any) => artist.name).join(", "),
-    }));
-
-    res.json({
-      success: true,
-      data: extractedData,
-    });
-  });
-
   public getMyTopArtists = asyncHandler(async (req: Request, res: Response) => {
     const data = await this.spotifyService.getMyTopArtists();
     const extractedData = data.body.items.map(

@@ -11,10 +11,6 @@ export class DataService implements IDataService {
     return this.spotifyRepository.getMyRecentlyPlayedTracks();
   }
 
-  async getNewReleases(): Promise<any> {
-    return this.spotifyRepository.getNewReleases();
-  }
-
   async getMyTopArtists(): Promise<any> {
     return this.spotifyRepository.getMyTopArtists();
   }
