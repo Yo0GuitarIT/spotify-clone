@@ -1,16 +1,13 @@
 import crypto from "crypto";
-import { ISpotifyReposity, ISpotifyService } from "../interface/interface";
+import { IAuthRepository, IAuthService } from "../interface/interface";
 import { SPOTIFY_SCOPE } from "../config/constants";
 import { AuthenticationError } from "../utils/customError";
 
-export class SpotifyService implements ISpotifyService {
-  private spotifyRepository: ISpotifyReposity;
+export class AuthService implements IAuthService {
   private showDialog = true;
   private tokenRefreshInterval: NodeJS.Timeout | null = null;
 
-  constructor(spotifyRepository: ISpotifyReposity) {
-    this.spotifyRepository = spotifyRepository;
-  }
+  constructor(private spotifyRepository: IAuthRepository) {}
 
   private generateRandomString(length: number): string {
     const possible =
@@ -57,13 +54,11 @@ export class SpotifyService implements ISpotifyService {
       const { access_token, refresh_token, expires_in } = data.body;
       this.spotifyRepository.setAccessToken(access_token);
       this.spotifyRepository.setRefreshToken(refresh_token);
-
       this.setupTokenRefresh(expires_in);
-
       return true;
     } catch (error) {
       console.error("Error in handleCallback:", error);
-      throw new AuthenticationError("Failed to authenticaticate with Spotify");
+      throw new AuthenticationError("Failed to authenticate with Spotify");
     }
   }
 
@@ -75,25 +70,5 @@ export class SpotifyService implements ISpotifyService {
 
   public getAccessToken(): string | undefined {
     return this.spotifyRepository.getAccessToken();
-  }
-
-  async getUserProfile(): Promise<any> {
-    return this.spotifyRepository.getUserProfile();
-  }
-
-  async getMyRecentlyPlayedTracks(): Promise<any> {
-    return this.spotifyRepository.getMyRecentlyPlayedTracks();
-  }
-
-  async getNewReleases(): Promise<any> {
-    return this.spotifyRepository.getNewReleases();
-  }
-
-  async getMyTopArtists(): Promise<any>{
-    return this.spotifyRepository.getMyTopArtists();
-  }
-
-  async getMyTopTracks(): Promise<any>{
-    return this.spotifyRepository.getMyTopTracks();
   }
 }

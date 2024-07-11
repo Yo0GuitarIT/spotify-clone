@@ -1,11 +1,18 @@
-export interface ISpotifyReposity {
-  getSpotifyWebApi(): any;
+import SpotifyWebApi from "spotify-web-api-node";
+
+export interface IBaseSpotifyRepository {
+  getSpotifyWebApi(): SpotifyWebApi;
+}
+
+export interface IAuthRepository extends IBaseSpotifyRepository {
   getAccessToken(): string | undefined;
   getRefreshToken(): string | undefined;
-  setAccessToken(token: string): string | void;
-  setRefreshToken(token: string): string | void;
+  setAccessToken(token: string): void;
+  setRefreshToken(token: string): void;
   refreshAccessToken(): Promise<string>;
+}
 
+export interface IDataRepository extends IBaseSpotifyRepository {
   getUserProfile(): Promise<any>;
   getMyRecentlyPlayedTracks(): Promise<any>;
   getNewReleases(): Promise<any>;
@@ -13,12 +20,14 @@ export interface ISpotifyReposity {
   getMyTopTracks(): Promise<any>;
 }
 
-export interface ISpotifyService {
+export interface IAuthService {
   createAuthUrl(): string;
   handleCallback(code: string): Promise<boolean>;
-  getAccessToken(): string | undefined;
   logout(): void;
+  getAccessToken(): string | undefined;
+}
 
+export interface IDataService {
   getUserProfile(): Promise<any>;
   getMyRecentlyPlayedTracks(): Promise<any>;
   getNewReleases(): Promise<any>;

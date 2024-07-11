@@ -1,52 +1,36 @@
-import express from "express";
-import { SpotifyRepository } from "../repositories/SpotifyResposity";
-import { SpotifyService } from "../services/SpotifyService";
-import { SpotifyController } from "../controllers/SpotifyController";
+import { Router } from "express";
 
-const spotifyRouter = express.Router();
+import { AuthRepository } from "../repositories/AuthRepository";
+import { DataRepository } from "../repositories/DataRepository";
 
-const spotifyRepository = new SpotifyRepository();
-const spotifyService = new SpotifyService(spotifyRepository);
-const spotifyController = new SpotifyController(spotifyService);
 
-spotifyRouter.post("/login", spotifyController.login.bind(spotifyController));
-spotifyRouter.post("/logout", spotifyController.logout.bind(spotifyController));
-spotifyRouter.get(
-  "/getAccessToken",
-  spotifyController.getAccessToken.bind(spotifyController)
-);
+import { AuthService } from "../services/AuthService";
+import { DataService } from "../services/DataService";
 
-spotifyRouter.get(
-  "/callback",
-  spotifyController.callback.bind(spotifyController)
-);
-spotifyRouter.post(
-  "/validLoginState",
-  spotifyController.validLoginState.bind(spotifyController)
-);
-spotifyRouter.get(
-  "/getUserProfile",
-  spotifyController.getUserProfile.bind(spotifyController)
-);
+import { AuthController } from "../controllers/AuthController";
+import { DataController } from "../controllers/DataController";
 
-spotifyRouter.get(
-  "/getMyRecentlyPlayedTracks",
-  spotifyController.getMyRecentlyPlayedTracks.bind(spotifyController)
-);
+const spotifyRouter = Router();
 
-spotifyRouter.get(
-  "/getNewReleases",
-  spotifyController.getNewReleases.bind(spotifyController)
-);
+const authRepository = new AuthRepository();
+const dataRepository = new DataRepository();
 
-spotifyRouter.get(
-  "/getMyTopArtists",
-  spotifyController.getMyTopArtists.bind(spotifyController)
-);
+const authService = new AuthService(authRepository);
+const dataService = new DataService(dataRepository);
 
-spotifyRouter.get(
-  "/getMyTopTracks",
-  spotifyController.getMyTopTracks.bind(spotifyController)
-);
+const authController = new AuthController(authService);
+const dataController = new DataController(dataService);
+
+spotifyRouter.post("/login", authController.login);
+spotifyRouter.post("/logout", authController.logout);
+spotifyRouter.get("/getAccessToken", authController.getAccessToken);
+spotifyRouter.get("/callback", authController.callback);
+spotifyRouter.post("/validLoginState", authController.validLoginState);
+
+spotifyRouter.get("/getUserProfile", dataController.getUserProfile);
+spotifyRouter.get("/getMyRecentlyPlayedTracks",dataController.getMyRecentlyPlayedTracks);
+spotifyRouter.get("/getNewReleases", dataController.getNewReleases);
+spotifyRouter.get("/getMyTopArtists", dataController.getMyTopArtists);
+spotifyRouter.get("/getMyTopTracks", dataController.getMyTopTracks);
 
 export default spotifyRouter;
