@@ -3,19 +3,19 @@ import { IDataRepository, IDataService } from "../interface/interface";
 export class DataService implements IDataService {
   constructor(private spotifyRepository: IDataRepository) {}
 
-  async getUserProfile(): Promise<any> {
+  async getUserProfile<T = any>(): Promise<T> {
     return this.spotifyRepository.getUserProfile();
   }
 
-  async getMyRecentlyPlayedTracks(): Promise<any> {
+  async getMyRecentlyPlayedTracks<T = any>(): Promise<T> {
     return this.spotifyRepository.getMyRecentlyPlayedTracks();
   }
 
-  async getMyTopArtists(): Promise<any> {
+  async getMyTopArtists<T = any>(): Promise<T> {
     return this.spotifyRepository.getMyTopArtists();
   }
 
-  async getMyTopTracks(): Promise<any> {
+  async getMyTopTracks<T = any>(): Promise<T> {
     return this.spotifyRepository.getMyTopTracks();
   }
 }

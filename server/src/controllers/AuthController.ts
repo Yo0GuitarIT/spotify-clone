@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { IAuthService } from "../interface/interface";
+import { FRONTEND_CALLBACK_URL } from "../config/constants";
 import {
   ValidationError,
   AuthenticationError,
@@ -37,7 +38,7 @@ export class AuthController {
 
     try {
       const success = await this.spotifyService.handleCallback(code);
-      const frontendUrl = new URL("http://localhost:5173/auth-callback");
+      const frontendUrl = new URL(FRONTEND_CALLBACK_URL)  ;
       frontendUrl.searchParams.append(
         "login_success",
         success ? "true" : "false"
@@ -46,7 +47,7 @@ export class AuthController {
       res.redirect(frontendUrl.toString());
     } catch (err) {
       console.error("Error in Spotify callback:", err);
-      const frontendUrl = new URL("http://localhost:5173/auth-callback");
+      const frontendUrl = new URL(FRONTEND_CALLBACK_URL);
       frontendUrl.searchParams.append("login_success", "false");
       frontendUrl.searchParams.append(
         "error",

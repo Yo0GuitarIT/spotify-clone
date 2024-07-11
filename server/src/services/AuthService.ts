@@ -1,20 +1,13 @@
-import crypto from "crypto";
 import { IAuthRepository, IAuthService } from "../interface/interface";
 import { SPOTIFY_SCOPE } from "../config/constants";
 import { AuthenticationError } from "../utils/customError";
+import { generateRandomString } from "../utils/AuthUtils";
 
 export class AuthService implements IAuthService {
   private showDialog = true;
   private tokenRefreshInterval: NodeJS.Timeout | null = null;
 
   constructor(private spotifyRepository: IAuthRepository) {}
-
-  private generateRandomString(length: number): string {
-    const possible =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    const values = crypto.randomBytes(length);
-    return values.reduce((acc, x) => acc + possible[x % possible.length], "");
-  }
 
   private setupTokenRefresh(expiresIn: number): void {
     if (this.tokenRefreshInterval) {
@@ -31,7 +24,7 @@ export class AuthService implements IAuthService {
     }, (expiresIn / 2) * 1000);
   }
 
-  public stopTokenRefresh(): void {
+  private stopTokenRefresh(): void {
     if (this.tokenRefreshInterval) {
       clearInterval(this.tokenRefreshInterval);
       this.tokenRefreshInterval = null;
@@ -40,7 +33,7 @@ export class AuthService implements IAuthService {
   }
 
   public createAuthUrl(): string {
-    const state = this.generateRandomString(16);
+    const state = generateRandomString(16);
     return this.spotifyRepository
       .getSpotifyWebApi()
       .createAuthorizeURL(SPOTIFY_SCOPE, state, this.showDialog);

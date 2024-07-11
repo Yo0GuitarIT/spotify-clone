@@ -20,15 +20,15 @@ export interface IDataRepository extends IBaseSpotifyRepository {
 }
 
 export interface IAuthService {
-  createAuthUrl(): string;
   handleCallback(code: string): Promise<boolean>;
+  createAuthUrl(): string;
   logout(): void;
   getAccessToken(): string | undefined;
 }
 
 export interface IDataService {
-  getUserProfile(): Promise<any>;
-  getMyRecentlyPlayedTracks(): Promise<any>;
-  getMyTopArtists(): Promise<any>;
-  getMyTopTracks(): Promise<any>;
+  getUserProfile<T = any>(): Promise<T>;
+  getMyRecentlyPlayedTracks<T = any>(): Promise<T>;
+  getMyTopArtists<T = any>(): Promise<T>;
+  getMyTopTracks<T = any>(): Promise<T>;
 }
