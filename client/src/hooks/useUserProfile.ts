@@ -12,8 +12,8 @@ export const useUserProfile = () => {
       try {
         setIsLoading(true);
         const data = await getUserProfile();
-        if (data && data.imageUrl) {
-          setProfile({ imageUrl: data.imageUrl });
+        if (data) {
+          setProfile({ imageUrl: data.data.imageUrl });
         } else {
           throw new Error("Invalid profile data");
         }

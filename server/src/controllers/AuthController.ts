@@ -12,7 +12,7 @@ import {
 export class AuthController {
   constructor(private spotifyService: IAuthService) {}
 
-  public login = asyncHandler(async (req: Request, res: Response) => {
+  public login = asyncHandler(async (_req: Request, res: Response) => {
     const authUrl = this.spotifyService.createAuthUrl();
     const response: DataResponse<string> = {
       success: true,
@@ -22,7 +22,7 @@ export class AuthController {
     res.json(response);
   });
 
-  public logout = asyncHandler(async (req: Request, res: Response) => {
+  public logout = asyncHandler(async (_req: Request, res: Response) => {
     this.spotifyService.logout();
     const response: BaseResponse = {
       success: true,
@@ -79,7 +79,7 @@ export class AuthController {
     res.json(response);
   });
 
-  public getAccessToken = asyncHandler(async (req: Request, res: Response) => {
+  public getAccessToken = asyncHandler(async (_req: Request, res: Response) => {
     const data = this.spotifyService.getAccessToken();
     const response: DataResponse<string | undefined> = {
       success: true,

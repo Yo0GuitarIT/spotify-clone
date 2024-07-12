@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { getUserRecentlyPlayedTracks } from "../services/spotifyApi";
 
 interface Track {
-  artist: string;
-  song: string;
+  artistName: string;
+  songName: string;
   albumCoverUrl: string;
 }
 

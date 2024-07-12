@@ -17,3 +17,18 @@ export type AsyncRequestHandler = (
   res: Response,
   next: NextFunction
 ) => Promise<void>;
+
+export interface UserProfile {
+  imageUrl: string | undefined;
+}
+
+export interface Track {
+  artistName: string;
+  songName: string;
+  albumCoverUrl: string;
+}
+
+export interface Artist {
+  artistName: string;
+  imageUrl: string;
+}
