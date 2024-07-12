@@ -1,7 +1,7 @@
 export interface ApiResponse {
   success: boolean;
   message: string;
-  url?: string;
+  data?: string;
 }
 
 export interface UserProfileType {

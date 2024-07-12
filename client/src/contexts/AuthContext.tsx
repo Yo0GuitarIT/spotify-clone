@@ -50,8 +50,8 @@ function AuthProvider({ children }: AuthProviderProps) {
   const initiateLogin = useCallback(async (): Promise<void> => {
     try {
       const loginResponse: ApiResponse = await loginSpotify();
-      if (loginResponse.success && loginResponse.url) {
-        window.location.href = loginResponse.url;
+      if (loginResponse.success && loginResponse.data) {
+        window.location.href = loginResponse.data;
       } else {
         throw new Error("Login failed: No redirect URL Provided");
       }

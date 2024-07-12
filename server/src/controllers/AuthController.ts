@@ -1,10 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { IAuthService } from "../interface/interface";
 import { FRONTEND_CALLBACK_URL } from "../config/constants";
-import {
-  ValidationError,
-  AuthenticationError,
-} from "../utils/customError";
+import { ValidationError, AuthenticationError } from "../utils/customError";
 
 const asyncHandler =
   (fn: Function) => (req: Request, res: Response, next: NextFunction) => {
@@ -14,12 +11,14 @@ const asyncHandler =
 export class AuthController {
   constructor(private spotifyService: IAuthService) {}
 
-  public login = asyncHandler(
-    async (req: Request, res: Response) => {
-      const authUrl = this.spotifyService.createAuthUrl();
-      res.json({ success: true, url: authUrl });
-    }
-  );
+  public login = asyncHandler(async (req: Request, res: Response) => {
+    const authUrl = this.spotifyService.createAuthUrl();
+    res.json({
+      success: true,
+      data: authUrl,
+      message: "create Authorization URL successful",
+    });
+  });
 
   public logout = asyncHandler(async (req: Request, res: Response) => {
     this.spotifyService.logout();
@@ -38,7 +37,7 @@ export class AuthController {
 
     try {
       const success = await this.spotifyService.handleCallback(code);
-      const frontendUrl = new URL(FRONTEND_CALLBACK_URL)  ;
+      const frontendUrl = new URL(FRONTEND_CALLBACK_URL);
       frontendUrl.searchParams.append(
         "login_success",
         success ? "true" : "false"
@@ -57,27 +56,30 @@ export class AuthController {
     }
   });
 
-  public validLoginState = asyncHandler(
-    async (req: Request, res: Response) => {
-      const { loginState } = req.body;
+  public validLoginState = asyncHandler(async (req: Request, res: Response) => {
+    const { loginState } = req.body;
 
-      if (!loginState) {
-        throw new ValidationError("No login state provided");
-      }
-
-      if (loginState === "true") {
-        res.json({ success: true, valid: true });
-      } else {
-        res.json({ success: true, valid: false });
-      }
+    if (!loginState) {
+      throw new ValidationError("No login state provided");
     }
-  );
+
+    if (loginState === "true") {
+      res.json({ success: true, valid: true, message: "Login state is true" });
+    } else {
+      res.json({
+        success: true,
+        valid: false,
+        message: "Login state is false",
+      });
+    }
+  });
 
   public getAccessToken = asyncHandler(async (req: Request, res: Response) => {
     const data = this.spotifyService.getAccessToken();
     res.json({
       success: true,
       data: data,
+      message: "Get access token successfully",
     });
   });
 }
