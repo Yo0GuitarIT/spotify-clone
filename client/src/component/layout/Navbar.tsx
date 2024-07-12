@@ -6,7 +6,6 @@ function Navbar() {
   const { logoutUser } = useAuth();
   const { profile, isLoading, error } = useUserProfile();
 
-  console.log(profile);
   return (
     <header className="h-16 px-6 flex items-center justify-end max-w-[1955px]">
       <div className="flex items-center gap-2">

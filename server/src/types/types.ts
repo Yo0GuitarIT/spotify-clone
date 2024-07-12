@@ -1,15 +1,19 @@
-export interface SpotifyTokens {
-  access_token: string;
-  refresh_token: string;
-  expires_in: number;
+import { NextFunction, Request, Response } from "express";
+export interface BaseResponse {
+  success: boolean;
+  message: string;
 }
 
-export interface AuthorizationResponse {
-  success: boolean;
-  url: string;
+export interface DataResponse<T> extends BaseResponse {
+  data: T;
 }
 
-export interface LoginStateResponse {
-  success: boolean;
+export interface ValidLoginStateResponse extends BaseResponse {
   valid: boolean;
 }
+
+export type AsyncRequestHandler = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => Promise<void>;

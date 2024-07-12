@@ -9,7 +9,7 @@ function AuthCallbackPage() {
 
   const processAuthCallback = (): void => {
     const params = new URLSearchParams(location.search);
-    const loginState = params.get("login_success");
+    const loginState = params.get("success");
 
     if (loginState) {
       console.log("get login state");

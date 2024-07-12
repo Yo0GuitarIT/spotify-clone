@@ -1,28 +1,34 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { IAuthService } from "../interface/interface";
 import { FRONTEND_CALLBACK_URL } from "../config/constants";
 import { ValidationError, AuthenticationError } from "../utils/customError";
-
-const asyncHandler =
-  (fn: Function) => (req: Request, res: Response, next: NextFunction) => {
-    Promise.resolve(fn(req, res, next)).catch(next);
-  };
+import { asyncHandler } from "../utils/asyncHandler";
+import {
+  BaseResponse,
+  DataResponse,
+  ValidLoginStateResponse,
+} from "../types/types";
 
 export class AuthController {
   constructor(private spotifyService: IAuthService) {}
 
   public login = asyncHandler(async (req: Request, res: Response) => {
     const authUrl = this.spotifyService.createAuthUrl();
-    res.json({
+    const response: DataResponse<string> = {
       success: true,
       data: authUrl,
-      message: "create Authorization URL successful",
-    });
+      message: "Authorization URL created successfully",
+    };
+    res.json(response);
   });
 
   public logout = asyncHandler(async (req: Request, res: Response) => {
     this.spotifyService.logout();
-    res.json({ success: true, message: "Logged out successfully" });
+    const response: BaseResponse = {
+      success: true,
+      message: "Logged out successfully",
+    };
+    res.json(response);
   });
 
   public callback = asyncHandler(async (req: Request, res: Response) => {
@@ -38,18 +44,19 @@ export class AuthController {
     try {
       const success = await this.spotifyService.handleCallback(code);
       const frontendUrl = new URL(FRONTEND_CALLBACK_URL);
+      frontendUrl.searchParams.append("success", success ? "true" : "false");
       frontendUrl.searchParams.append(
-        "login_success",
-        success ? "true" : "false"
+        "message",
+        success ? "Login successful" : "Login failed"
       );
 
       res.redirect(frontendUrl.toString());
     } catch (err) {
       console.error("Error in Spotify callback:", err);
       const frontendUrl = new URL(FRONTEND_CALLBACK_URL);
-      frontendUrl.searchParams.append("login_success", "false");
+      frontendUrl.searchParams.append("success", "false");
       frontendUrl.searchParams.append(
-        "error",
+        "message",
         "An error occurred during authentication"
       );
       res.redirect(frontendUrl.toString());
@@ -63,23 +70,22 @@ export class AuthController {
       throw new ValidationError("No login state provided");
     }
 
-    if (loginState === "true") {
-      res.json({ success: true, valid: true, message: "Login state is true" });
-    } else {
-      res.json({
-        success: true,
-        valid: false,
-        message: "Login state is false",
-      });
-    }
+    const response: ValidLoginStateResponse = {
+      success: true,
+      valid: loginState === "true",
+      message:
+        loginState === "true" ? "Login state is true" : "Login state is false",
+    };
+    res.json(response);
   });
 
   public getAccessToken = asyncHandler(async (req: Request, res: Response) => {
     const data = this.spotifyService.getAccessToken();
-    res.json({
+    const response: DataResponse<string | undefined> = {
       success: true,
       data: data,
-      message: "Get access token successfully",
-    });
+      message: "Access token retrieved successfully",
+    };
+    res.json(response);
   });
 }
