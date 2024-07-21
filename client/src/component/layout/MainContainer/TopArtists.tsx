@@ -3,7 +3,6 @@ import { useMyTopArtitsts } from "../../../hooks/useMyTopArtists";
 
 function TopArtists() {
   const { myTopArtists, isLoading, error } = useMyTopArtitsts();
-  console.log(myTopArtists);
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 

@@ -1,7 +1,7 @@
-export interface ApiResponse {
+export interface ApiResponse<T=any> {
   success: boolean;
   message: string;
-  data?: string;
+  data?: T;
 }
 
 export interface UserProfileType {
@@ -11,10 +11,10 @@ export interface UserProfileType {
 export interface AuthContextType {
   isAuthenticated: boolean | null;
   isLoading: boolean;
-  initiateLogin: () => Promise<void>;
-  handleCallback: (accessToken: string) => void;
-  logoutUser: () => Promise<void>;
   verifyAuthStatus: () => Promise<void>;
+  initiateLogin: () => Promise<void>;
+  handleCallback: (loginState: string) => void;
+  logoutUser: () => Promise<void>;
 }
 
 export interface PlayerContextType {

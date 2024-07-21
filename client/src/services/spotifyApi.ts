@@ -1,3 +1,5 @@
+// import { ApiResponse } from "../types/types";
+
 export const loginSpotify = async () => {
   const response = await fetch("/api/spotify/login", {
     method: "POST",
@@ -155,5 +157,5 @@ export const getAccessToken = async () => {
   } catch (error) {
     console.error("Error get Accesstoken", error);
     throw error;
-  } 
-}
+  }
+};
