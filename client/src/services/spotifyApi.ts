@@ -1,6 +1,6 @@
-// import { ApiResponse } from "../types/types";
+import { ApiResponse } from "../types/types";
 
-export const loginSpotify = async () => {
+export const login = async ():Promise<ApiResponse<string>> => {
   const response = await fetch("/api/spotify/login", {
     method: "POST",
     headers: {

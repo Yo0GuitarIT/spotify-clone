@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback, ReactNode } from "react";
+import  { useState, useEffect, useCallback, ReactNode } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import {
   validLoginState,
-  loginSpotify,
+  login,
   logoutSpotify,
 } from "../services/spotifyApi";
 import { ApiResponse, AuthContextType } from "../types/types";
@@ -11,7 +11,7 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+function AuthProvider({ children } : AuthProviderProps)  {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -39,7 +39,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const initiateLogin = useCallback(async (): Promise<void> => {
     try {
-      const loginResponse: ApiResponse = await loginSpotify();
+      const loginResponse: ApiResponse<string> = await login();
       if (loginResponse.success && loginResponse.data) {
         window.location.href = loginResponse.data;
       } else {
