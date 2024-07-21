@@ -1,7 +1,10 @@
-// src/contexts/AuthProvider.tsx
 import React, { useState, useEffect, useCallback, ReactNode } from "react";
 import { AuthContext } from "../contexts/AuthContext";
-import { validLoginState, loginSpotify, logoutSpotify } from "../services/spotifyApi";
+import {
+  validLoginState,
+  loginSpotify,
+  logoutSpotify,
+} from "../services/spotifyApi";
 import { ApiResponse, AuthContextType } from "../types/types";
 
 interface AuthProviderProps {
@@ -76,9 +79,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={contextValue}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 };
 
