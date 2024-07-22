@@ -15,6 +15,17 @@ export interface UserProfileType {
   imageUrl: string;
 }
 
+export interface Track {
+  artistName: string;
+  songName: string;
+  albumCoverUrl: string;
+}
+
+export interface Artist {
+  artistName: string;
+  imageUrl: string;
+}
+
 export interface AuthContextType {
   isAuthenticated: boolean | null;
   isLoading: boolean;

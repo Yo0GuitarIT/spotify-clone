@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { getMyTopArtists } from "../services/dataApi";
+import { DataResponse, Artist } from "../types/types";
 
 export const useMyTopArtitsts = () => {
-  const [myTopArtists, setMyTopArtitsts] = useState([]);
+  const [myTopArtists, setMyTopArtitsts] = useState(<Artist[]>[]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -10,7 +11,7 @@ export const useMyTopArtitsts = () => {
     const fetchMyTopArtists = async () => {
       try {
         setIsLoading(true);
-        const response = await getMyTopArtists();
+        const response: DataResponse<Artist[]> = await getMyTopArtists();
         if (response.success) {
           setMyTopArtitsts(response.data);
         } else {

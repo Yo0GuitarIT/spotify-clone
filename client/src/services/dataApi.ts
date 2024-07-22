@@ -1,4 +1,8 @@
-export const getUserProfile = async () => {
+import { DataResponse, UserProfileType, Track, Artist } from "../types/types";
+
+export const getUserProfile = async (): Promise<
+  DataResponse<UserProfileType>
+> => {
   try {
     const response = await fetch("api/spotify/getUserProfile", {
       method: "GET",
@@ -16,7 +20,9 @@ export const getUserProfile = async () => {
   }
 };
 
-export const getUserRecentlyPlayedTracks = async () => {
+export const getMyRecentlyPlayedTracks = async (): Promise<
+  DataResponse<Track[]>
+> => {
   try {
     const response = await fetch("api/spotify/getMyRecentlyPlayedTracks", {
       method: "GET",
@@ -34,25 +40,7 @@ export const getUserRecentlyPlayedTracks = async () => {
   }
 };
 
-export const getNewReleases = async () => {
-  try {
-    const response = await fetch("api/spotify/getNewReleases", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (!response.ok) {
-      throw new Error(`Get New Releases Failed: ${response.statusText}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error("Error get New Releases", error);
-    throw error;
-  }
-};
-
-export const getMyTopArtists = async () => {
+export const getMyTopArtists = async (): Promise<DataResponse<Artist[]>> => {
   try {
     const response = await fetch("api/spotify/getMyTopArtists", {
       method: "GET",
@@ -70,7 +58,7 @@ export const getMyTopArtists = async () => {
   }
 };
 
-export const getMyTopTracks = async () => {
+export const getMyTopTracks = async (): Promise<DataResponse<Track[]>> => {
   try {
     const response = await fetch("api/spotify/getMyTopTracks", {
       method: "GET",
@@ -87,4 +75,3 @@ export const getMyTopTracks = async () => {
     throw error;
   }
 };
-

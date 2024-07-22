@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { getMyTopTracks } from "../services/dataApi";
+import { DataResponse, Track } from "../types/types";
 
 export const useMyTopTracks = () => {
-  const [myTopTracks, setMyTopTracks] = useState([]);
+  const [myTopTracks, setMyTopTracks] = useState(<Track[]>[]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -10,7 +11,7 @@ export const useMyTopTracks = () => {
     const fetchMyTopTracks = async () => {
       try {
         setIsLoading(true);
-        const response = await getMyTopTracks();
+        const response: DataResponse<Track[]> = await getMyTopTracks();
         if (response.success) {
           setMyTopTracks(response.data);
         } else {

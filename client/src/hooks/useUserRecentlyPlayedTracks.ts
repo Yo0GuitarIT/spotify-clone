@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getUserRecentlyPlayedTracks } from "../services/dataApi";
+import { getMyRecentlyPlayedTracks } from "../services/dataApi";
 
 interface Track {
   artistName: string;
@@ -12,7 +12,7 @@ export const useUserRecentltPlayedTrack = () => {
 
   useEffect(() => {
     const fetchUserRecentlyPlayedTracks = async () => {
-      const response = await getUserRecentlyPlayedTracks();
+      const response = await getMyRecentlyPlayedTracks();
       if (response.success && Array.isArray(response.data)) {
         setTracks(response.data);
       }
