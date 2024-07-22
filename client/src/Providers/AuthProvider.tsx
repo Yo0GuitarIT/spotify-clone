@@ -4,7 +4,7 @@ import {
   validLoginState,
   login,
   logout,
-} from "../services/spotifyApi";
+} from "../services/authApi";
 import { DataResponse, AuthContextType } from "../types/types";
 
 interface AuthProviderProps {

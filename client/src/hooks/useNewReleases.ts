@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getNewReleases } from "../services/spotifyApi";
+import { getNewReleases } from "../services/dataApi";
 
 export const useNewReleases = () => {
   const [newReleases, setNewReleases] = useState([]);
