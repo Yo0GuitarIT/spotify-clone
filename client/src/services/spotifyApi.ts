@@ -1,6 +1,10 @@
-import { ApiResponse } from "../types/types";
+import {
+  BaseResponse,
+  DataResponse,
+  ValidLoginStateResponse,
+} from "../types/types";
 
-export const login = async ():Promise<ApiResponse<string>> => {
+export const login = async (): Promise<DataResponse<string>> => {
   const response = await fetch("/api/spotify/login", {
     method: "POST",
     headers: {
@@ -16,7 +20,7 @@ export const login = async ():Promise<ApiResponse<string>> => {
   return data;
 };
 
-export const logoutSpotify = async () => {
+export const logout = async (): Promise<BaseResponse> => {
   const response = await fetch("/api/spotify/logout", {
     method: "POST",
     headers: {
@@ -31,7 +35,9 @@ export const logoutSpotify = async () => {
   return data;
 };
 
-export const validLoginState = async (loginState: string) => {
+export const validLoginState = async (
+  loginState: string
+): Promise<ValidLoginStateResponse> => {
   try {
     const response = await fetch("/api/spotify/validLoginState", {
       method: "POST",

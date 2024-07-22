@@ -1,7 +1,14 @@
-export interface ApiResponse<T=any> {
+export interface BaseResponse {
   success: boolean;
   message: string;
-  data?: T;
+}
+
+export interface DataResponse<T> extends BaseResponse {
+  data: T;
+}
+
+export interface ValidLoginStateResponse extends BaseResponse {
+  valid: boolean;
 }
 
 export interface UserProfileType {
@@ -20,8 +27,8 @@ export interface AuthContextType {
 export interface PlayerContextType {
   token: string | null;
   isLoading: boolean;
-  tokenError: string | null;  
-  playerError: Error | null;  
+  tokenError: string | null;
+  playerError: Error | null;
   player: Spotify.Player | null;
   volume: number;
   playbackState: Spotify.PlaybackState | null;

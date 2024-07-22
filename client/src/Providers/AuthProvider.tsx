@@ -3,9 +3,9 @@ import { AuthContext } from "../contexts/AuthContext";
 import {
   validLoginState,
   login,
-  logoutSpotify,
+  logout,
 } from "../services/spotifyApi";
-import { ApiResponse, AuthContextType } from "../types/types";
+import { DataResponse, AuthContextType } from "../types/types";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -39,7 +39,7 @@ function AuthProvider({ children } : AuthProviderProps)  {
 
   const initiateLogin = useCallback(async (): Promise<void> => {
     try {
-      const loginResponse: ApiResponse<string> = await login();
+      const loginResponse: DataResponse<string> = await login();
       if (loginResponse.success && loginResponse.data) {
         window.location.href = loginResponse.data;
       } else {
@@ -59,7 +59,7 @@ function AuthProvider({ children } : AuthProviderProps)  {
 
   const logoutUser = useCallback(async (): Promise<void> => {
     try {
-      await logoutSpotify();
+      await logout();
       localStorage.removeItem("login_success");
       setIsAuthenticated(false);
       window.location.href = "/login";
