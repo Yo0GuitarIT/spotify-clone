@@ -12,13 +12,15 @@ async function startServer() {
     const app = express();
     const httpServer = http.createServer(app);
 
-    const graphQLService = new GraphQLService(httpServer);
-    await graphQLService.start();
-
     app.use(express.json());
     app.use(morgan("dev"));
+
+    const graphQLService = new GraphQLService(httpServer);
+    await graphQLService.start();
     app.use("/graphql", graphQLService.getMiddleware());
+
     app.use("/api/spotify", spotifyRouter);
+
     app.use(errorhandler);
 
     await new Promise<void>((resolve) =>
