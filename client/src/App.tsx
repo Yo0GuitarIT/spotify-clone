@@ -3,6 +3,11 @@ import AuthProvider from "./Providers/AuthProvider";
 import PlayerProvider from "./Providers/PlayerProvider";
 import AppRoutes from "./component/AppRoutes";
 
+
+
+
+
+
 function App() {
   return (
     <AuthProvider>
