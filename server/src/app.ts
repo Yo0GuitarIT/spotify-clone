@@ -4,6 +4,7 @@ import { PORT } from "./config/constants";
 import { GraphQLService } from "./services/GraphQLService";
 import spotifyRouter from "./routes/spotifyRoutes";
 import { errorHandler } from "./middleware/errorHandler";
+import morgan from "morgan";
 
 async function startServer() {
   try {
@@ -11,6 +12,7 @@ async function startServer() {
     const httpServer = http.createServer(app);
 
     app.use(express.json());
+    app.use(morgan("dev"));
 
     const graphQLService = new GraphQLService(httpServer);
     await graphQLService.start();
@@ -20,6 +22,7 @@ async function startServer() {
     app.use(errorHandler);
 
     await new Promise<void>((resolve) => httpServer.listen(PORT, resolve));
+
     console.log(`🚀 Server ready at http://localhost:${PORT}`);
     console.log(`🚀 GraphQL endpoint at http://localhost:${PORT}/graphql`);
   } catch (error) {

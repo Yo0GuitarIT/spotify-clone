@@ -8,19 +8,34 @@ export const typeDefs = `#graphql
     artistName: String!
     albumCoverUrl: String!
   }
-  type RecentlyPlayedTracksResponse {
+  
+  type Artist {
+  artistName:String!
+  imageUrl:String!
+  }
+
+  type TracksResponse {
     success: Boolean!
     data: [Track!]!
     message: String!
   }
+
+  type ArtistsResponse {
+    success: Boolean!
+    data: [Artist!]!
+    message: String!
+  }
+
   type Query {
-    recentlyPlayedTracks: RecentlyPlayedTracksResponse!
+    getRecentlyPlayedTracks: TracksResponse!
+    getMyTopTracks: TracksResponse!
+    getMyTopArtists: ArtistsResponse!
   }
 `;
 
 export const createResolvers = (dataService: IDataService): IResolvers => ({
   Query: {
-    recentlyPlayedTracks: async () => {
+    getRecentlyPlayedTracks: async () => {
       try {
         const data = await dataService.getMyRecentlyPlayedTracks();
         if (!data) {
@@ -39,6 +54,48 @@ export const createResolvers = (dataService: IDataService): IResolvers => ({
       } catch (error) {
         console.error("Error fetching recently played tracks:", error);
         throw error;
+      }
+    },
+
+    getMyTopTracks: async () => {
+      try {
+        const data = await dataService.getMyTopTracks();
+        if (!data) {
+          throw new NotFoundError("My top tracks not found");
+        }
+        const extractedData = data.body.items.slice(0, 16).map((item: any) => ({
+          songName: item.name,
+          artistName: item.artists.map((artist: any) => artist.name).join(", "),
+          albumCoverUrl: item.album.images[0]?.url ?? "",
+        }));
+        return {
+          success: true,
+          data: extractedData,
+          message: "Top tracks retrieved successfully",
+        };
+      } catch (error) {
+        console.error("My top tracks not found");
+        throw error;
+      }
+    },
+
+    getMyTopArtists: async () => {
+      try {
+        const data = await dataService.getMyTopArtists();
+        if (!data) {
+          throw new NotFoundError("My top artists not found");
+        }
+        const extractedData = data.body.items.map((item: any) => ({
+          artistName: item.name,
+          imageUrl: item.images[1].url,
+        }));
+        return {
+          success: true,
+          data: extractedData,
+          message: "Top artists retrieved successfully",
+        };
+      } catch (error) {
+        console.error("Top artists not foound");
       }
     },
   },
