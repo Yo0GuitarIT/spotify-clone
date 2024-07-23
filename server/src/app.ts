@@ -1,44 +1,29 @@
 import express from "express";
 import http from "http";
-import morgan from "morgan";
 import { PORT } from "./config/constants";
-import spotifyRouter from "./routes/spotifyRoutes";
-import { errorhandler } from "./middleware/errorHandler";
-import { ServerStartupError } from "./utils/customError";
 import { GraphQLService } from "./services/GraphQLService";
-
-import { DataService } from "./services/DataService";
-import { DataRepository } from "./repositories/DataRepository";
-
+import spotifyRouter from "./routes/spotifyRoutes";
+import { errorHandler } from "./middleware/errorHandler";
 
 async function startServer() {
   try {
     const app = express();
     const httpServer = http.createServer(app);
 
-    const dataRepository = new DataRepository();
-    const dataService = new DataService(dataRepository);
-
     app.use(express.json());
-    app.use(morgan("dev"));
 
-    const graphQLService = new GraphQLService(httpServer, dataService);
+    const graphQLService = new GraphQLService(httpServer);
     await graphQLService.start();
     app.use("/graphql", graphQLService.getMiddleware());
 
     app.use("/api/spotify", spotifyRouter);
-
-    app.use(errorhandler);
+    app.use(errorHandler);
 
     await new Promise<void>((resolve) => httpServer.listen(PORT, resolve));
-
     console.log(`🚀 Server ready at http://localhost:${PORT}`);
     console.log(`🚀 GraphQL endpoint at http://localhost:${PORT}/graphql`);
   } catch (error) {
-    const startupError = new ServerStartupError(
-      `Unexpected error during server startup: ${error}`
-    );
-    console.error(startupError.message);
+    console.error(`Unexpected error during server startup: ${error}`);
     process.exit(1);
   }
 }

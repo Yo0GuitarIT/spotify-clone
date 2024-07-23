@@ -23,9 +23,3 @@ export class NotFoundError extends CustomError {
     super(message, 404);
   }
 }
-
-export class ServerStartupError extends CustomError {
-  constructor(message: string) {
-    super(message, 500);
-  }
-}

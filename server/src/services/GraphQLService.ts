@@ -3,15 +3,21 @@ import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHt
 import { expressMiddleware } from "@apollo/server/express4";
 import http from "http";
 import { typeDefs, createResolvers } from "../graphQL/schema";
-import { IDataService } from "../interface/interface";
+
+import { DataRepository } from "../repositories/DataRepository";
+import { DataService } from "./DataService";
 
 export class GraphQLService {
   private server: ApolloServer;
+  private dataService: DataService;
 
-  constructor(httpServer: http.Server, private dataService: IDataService) {
+  constructor(httpServer: http.Server) {
+    const dataRepository = new DataRepository();
+    this.dataService = new DataService(dataRepository);
+
     this.server = new ApolloServer({
       typeDefs,
-      resolvers: createResolvers(dataService),
+      resolvers: createResolvers(this.dataService),
       plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
     });
   }
@@ -21,6 +27,12 @@ export class GraphQLService {
   }
 
   getMiddleware() {
-    return expressMiddleware(this.server);
+    return expressMiddleware(this.server, {
+      context: async ({ req }) => ({ token: req.headers.token }),
+    });
+  }
+
+  getDataService() {
+    return this.dataService;
   }
 }
