@@ -1,7 +1,7 @@
 import { IAuthRepository, IAuthService } from "../interface/interface";
 import { SPOTIFY_SCOPE } from "../config/constants";
 import { AuthenticationError } from "../utils/customError";
-import { generateRandomString } from "../utils/AuthUtils";
+import { generateRandomString } from "../utils/authUtils";
 
 export class AuthService implements IAuthService {
   private showDialog = true;

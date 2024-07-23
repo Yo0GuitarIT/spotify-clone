@@ -1,8 +1,5 @@
 export class CustomError extends Error {
-  constructor(
-    public message: string,
-    public statusCode: number,
-  ) {
+  constructor(public message: string, public statusCode: number) {
     super(message);
     this.name = this.constructor.name;
     Error.captureStackTrace(this, this.constructor);
@@ -24,5 +21,11 @@ export class AuthenticationError extends CustomError {
 export class NotFoundError extends CustomError {
   constructor(message: string) {
     super(message, 404);
+  }
+}
+
+export class ServerStartupError extends CustomError {
+  constructor(message: string) {
+    super(message, 500);
   }
 }
